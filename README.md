@@ -14,5 +14,3 @@ Applied AI project for open artworks using wikimedia.
 * go to localhost:8000 - this is where the frontend will be :) 
 
 You can also run this without VS Code and Remote Containers but you have to install python3 with requirements.txt and npm with package.json dependencys local.
-
-Superuser: root:Summer!2020
