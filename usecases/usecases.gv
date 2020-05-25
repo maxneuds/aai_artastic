@@ -1,0 +1,51 @@
+digraph usecases {
+	compound=true rankdir=LR
+	subgraph cluster_user {
+		user [label="" penwidth=0 shapefile="res/user.png"]
+		label=User labelloc=b penwidth=0
+	}
+	uc1 [label="get information
+about artwork"]
+	uc2 [label="get similar
+artworks"]
+	uc3 [label="search
+artworks"]
+	uc4 [label="describe artwork
+content"]
+	subgraph cluster_usecases {
+		penwidth=0 rank=same rankdir=TB ranksep=0
+		uc1
+		uc2
+		uc3
+		uc4
+		label=""
+	}
+	f1 [label="image
+upload"]
+	f2 [label="image
+classification"]
+	f3 [label="object
+detection"]
+	f4 [label="ddos/crawl
+detection"]
+	subgraph cluster_functions {
+		penwidth=0 rank=same rankdir=TB ranksep=0
+		f1
+		f2
+		f3
+		f4
+		label=""
+	}
+	user -> uc1
+	user -> uc2
+	user -> uc3
+	user -> uc4
+	uc1 -> f1 [label="\<\<include\>\>" dir=back style=dashed]
+	uc1 -> f2 [label="\<\<include\>\>" dir=back style=dashed]
+	uc2 -> f1 [label="\<\<include\>\>" dir=back style=dashed]
+	uc2 -> f2 [label="\<\<include\>\>" dir=back style=dashed]
+	uc4 -> f2 [label="\<\<include\>\>" dir=back style=dashed]
+	uc4 -> f3 [label="\<\<include\>\>" dir=back style=dashed]
+	f2 -> f3 [constraint=false dir=back style=dashed xlabel="\<\<include\>\>"]
+	f4 -> user [style=dashed xlabel="\<\<classify\>\>"]
+}
