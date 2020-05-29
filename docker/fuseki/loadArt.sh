@@ -1,0 +1,1 @@
+/jena-fuseki/load.sh ArtOntology ArtOntology_en.ttl
