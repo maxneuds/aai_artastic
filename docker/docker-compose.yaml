@@ -1,0 +1,12 @@
+version: '3.8'
+services: 
+  jena-fuseki:
+    image: "stain/jena-fuseki"
+    environment: 
+     FUSEKI_DATASET_1: ArtOntology
+     ADMIN_PASSWORD: SommerSemester2020!
+    ports:
+    - "3030:3030"
+    volumes:
+     - ./fuseki/:/staging/
+    # command: ["/staging/loadArt.sh"]
