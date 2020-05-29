@@ -130,3 +130,6 @@ dmypy.json
 
 # Webpack Stats
 artastic/frontend/webpack-stats.json
+
+# big data
+*.pkl
