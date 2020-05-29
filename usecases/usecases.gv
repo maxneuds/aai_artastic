@@ -10,8 +10,8 @@ about artwork"]
 artworks"]
 	uc3 [label="search
 artworks"]
-	uc4 [label="describe artwork
-content"]
+	uc4 [label="content to speech
+of artwork content"]
 	subgraph cluster_usecases {
 		penwidth=0 rank=same rankdir=TB ranksep=0
 		uc1
