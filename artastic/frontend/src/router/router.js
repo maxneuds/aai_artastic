@@ -18,7 +18,7 @@ const routes = [
     },
     {
         path: '/artworks',
-        name: 'index',
+        name: 'artworks',
         component: () => import("../components/Artworks.vue")
     }
 ];
