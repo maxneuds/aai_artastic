@@ -15,6 +15,11 @@ const routes = [
         path: '/contact',
         name: 'contact',
         component: Contact
+    },
+    {
+        path: '/artworks',
+        name: 'index',
+        component: () => import("../components/Artworks.vue")
     }
 ];
 let router = new Router({

@@ -35,7 +35,8 @@ export default {
     drawer: false,
     links: [
       { icon: "mdi-home", text: "Home", route: "/" },
-      { icon: "mdi-chat", text: "Contact", route: "/Contact" }
+      { icon: "mdi-chat", text: "Contact", route: "/contact" },
+      { icon: "mdi-home", text: "Artworks", route: "/artworks" }
     ]
   })
 };
