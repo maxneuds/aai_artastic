@@ -12,15 +12,22 @@
           <SearchField />
         </v-flex>
       </v-layout>
+      <v-layout row wrap class="my-5">
+        <v-flex>
+          <Artworks />
+        </v-flex>
+      </v-layout>
     </v-container>
   </div>
 </template>
 
 <script>
 import SearchField from "../components/SearchField";
+import Artworks from "../components/Artworks";
 export default {
   components: {
-    SearchField
+    SearchField,
+    Artworks
   }
 };
 </script>
