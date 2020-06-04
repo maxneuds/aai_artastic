@@ -1,19 +1,24 @@
 <template>
-  <input type="text" placeholder="Search for artwork name" v-model="query" v-on:keyup="postQuery">
+  <v-text-field
+    type="text"
+    placeholder="Search for artwork name"
+    outlined
+    v-model="query"
+    v-on:change="postQuery"
+  />
 </template>
+
 <script>
-  export default {
-    data() {
-      return {
-        query : ''
-      }
-    },
-    methods: {
-      postQuery: function (e) {
-        if(e.keyCode === 13){
-          this.$router.push({path : '/artworks', params: {q : this.query}})
-        }
-      }
+export default {
+  data() {
+    return {
+      query: ""
+    };
+  },
+  methods: {
+    postQuery: function() {
+      this.$emit("postQuery", this.query);
     }
   }
+};
 </script>
