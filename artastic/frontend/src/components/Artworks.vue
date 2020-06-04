@@ -32,24 +32,8 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
-  data() {
-    return {
-      artworks: []
-    };
-  },
-  created() {
-    this.all();
-  },
-  methods: {
-    all: function() {
-      axios.get("http://localhost:8000/api/artworks/").then(response => {
-        this.artworks = response.data;
-      });
-    }
-  }
+  props: ["artworks"]
 };
 </script>
 

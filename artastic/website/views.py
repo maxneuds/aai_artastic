@@ -1,18 +1,15 @@
 from django.shortcuts import render
 
 # Create your views here.
-from .models import Artwork
-from .serializers import ArtworkSerializer
-from rest_framework import generics
+from rest_framework.views import APIView
+from rest_framework.response import Response
+import website.services as utils
+import json
 
 
-class ArtworkList(generics.ListCreateAPIView):
-    serializer_class = ArtworkSerializer
-
-    def get_queryset(self):
-        if self.request.method == 'GET':
-            queryset = Artwork.objects.all()
-            artwork_name = self.request.GET.get('q', None)
-            if artwork_name is not None:
-                queryset = queryset.filter(name__contains=artwork_name)
-            return queryset
+class ArtworkList(APIView):
+    def post(self, request):
+        data = request.data
+        print(data)
+        informations = utils.get_all(data['data'])
+        return Response(informations)

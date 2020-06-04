@@ -9,12 +9,13 @@
 
       <v-layout row wrap class="my-5">
         <v-flex>
-          <SearchField />
+          <SearchField @postQuery="postQuery" />
         </v-flex>
       </v-layout>
       <v-layout row wrap class="my-5">
         <v-flex>
-          <Artworks />
+          <Artworks :artworks="artworks" />
+          <p>{{artworks}}</p>
         </v-flex>
       </v-layout>
     </v-container>
@@ -24,10 +25,32 @@
 <script>
 import SearchField from "../components/SearchField";
 import Artworks from "../components/Artworks";
+import axios from "axios";
 export default {
   components: {
     SearchField,
     Artworks
+  },
+  data: function() {
+    return {
+      artworks: []
+    };
+  },
+  methods: {
+    postQuery: function(data) {
+      axios.defaults.xsrfCookieName = "csrftoken";
+      axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+      axios({
+        method: "post",
+        url: "http://localhost:8000/api/artworks/",
+        data: {
+          data: data
+        }
+      }).then(response => {
+        console.log(response);
+        this.artworks = response.data;
+      });
+    }
   }
 };
 </script>
