@@ -1,7 +1,7 @@
 <template>
   <v-text-field
     type="text"
-    placeholder="Search for artwork name"
+    placeholder="Search for painters name"
     outlined
     v-model="query"
     v-on:change="postQuery"
@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     postQuery: function() {
-      this.$emit("postQuery", this.query);
+      this.$emit("postQuery2", this.query);
     }
   }
 };
