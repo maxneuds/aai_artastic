@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     postQuery: function() {
-      this.$emit("postQuery2", this.query);
+      this.$emit("postQuery", this.query);
     }
   }
 };
