@@ -14,8 +14,7 @@
       </v-layout>
       <v-layout row wrap class="my-5">
         <v-flex>
-          <Artworks :artworks="artworks" />
-          <p>{{artworks}}</p>
+          <ArtworkDetails :artwork="artwork"/>
         </v-flex>
       </v-layout>
     </v-container>
@@ -24,16 +23,16 @@
 
 <script>
 import SearchField from "../components/SearchField";
-import Artworks from "../components/Artworks";
+import ArtworkDetails from "../components/ArtworkDetails";
 import axios from "axios";
 export default {
   components: {
     SearchField,
-    Artworks
+    ArtworkDetails
   },
   data: function() {
     return {
-      artworks: []
+      artwork: []
     };
   },
   methods: {
@@ -47,8 +46,7 @@ export default {
           data: data
         }
       }).then(response => {
-        console.log(response);
-        this.artworks = response.data;
+        this.artwork = response.data;
       });
     }
   }
