@@ -7,16 +7,16 @@ let client = new es.Client({
 
 function search (searchText){
   return client.search({
-    type: 'completion',
-    body: {
-      fields: {},
-      query: {
-        multi_match: {
-          query: searchText,
-          fields: ["rdfs:label", "rdfs:type"]
+    "field": "rdfs:label",
+    "type": "completion",
+    "body": {
+      "query": {
+        "multi_match": {
+          "query": searchText,
+          "fields": ["rdfs:label", "rdfs:type"]
         }
       },
-      sort: ["_score", {"createdDate": "desc"}]
+      "sort": ["_score", {"createdDate": "desc"}]
     }
   }).then(function (resp) {
       return resp.hits.hits;
