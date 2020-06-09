@@ -9,14 +9,12 @@
     <v-card-text>
       <v-autocomplete
         v-model="model"
-        :items="items"
+        :items="autocompleteResults"
         :loading="isLoading"
         :search-input.sync="search"
         v-on:keyup="submitQuery"
         color="white"
         filled
-        item-text="value"
-        item-value="value"
         label="Artworks"
         placeholder="Search for an Artwork"
         prepend-icon="mdi-database-search"
@@ -32,8 +30,8 @@
         </template>
         <template v-slot:item="{item}">
           <v-list-item-content>
-            <v-list-item-title v-text="item.Description"></v-list-item-title>
-            <v-list-item-subtitle v-text="item.Link"></v-list-item-subtitle>
+            <v-list-item-title v-text="item[0]"></v-list-item-title>
+            <v-list-item-subtitle v-text="item[1]"></v-list-item-subtitle>
           </v-list-item-content>
         </template>
       </v-autocomplete>
@@ -61,15 +59,6 @@
       search: null,
       autocompleteResults: []
     }),
-    computed: {
-      items () {
-        return this.autocompleteResults.map(entry => {
-          //Set rdfs:type
-          const Description = entry.Description
-          return Object.assign({}, entry, {Description})
-        })
-      },
-    },
     methods: {
       submitQuery(e){
         if(e.keyCode === 13) {
@@ -79,17 +68,11 @@
     },
     watch: {
       search () {
-        // Items have already been loaded
-        if (this.items.length > 0) return
-
-        // Items have already been requested
         if (this.isLoading) return
 
         this.isLoading = true
 
-        // Lazily load input items
         search(this.search)
-          .then(res => res.json())
           .then(res => this.autocompleteResults = res)
           .catch(err => console.log(err))
           .finally(() => this.isLoading=false)
