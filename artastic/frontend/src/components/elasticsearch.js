@@ -8,12 +8,11 @@ let client = new es.Client({
 function search (searchText){
   return client.search({
     "query": {
-      "multi_match": {
-        "query": searchText,
-        "fields": ["Class", "abstract", "description", "instance", "label"]
+      "query_string": {
+        "query": searchText
       }
     },
-    "sort": ["_score"]
+    "size": 5
   }).then(function (resp) {
       return resp.hits.hits;
   }, function (err) {
