@@ -1,23 +1,19 @@
 let es = require('elasticsearch');
 
 let client = new es.Client({
-  host: 'neuds.de:9200',
+  host: 'neuds.de:9200/objects/_search',
   log: 'trace'
 });
 
 function search (searchText){
   return client.search({
-    "field": "rdfs:label",
-    "type": "completion",
-    "body": {
-      "query": {
-        "multi_match": {
-          "query": searchText,
-          "fields": ["rdfs:label", "rdfs:type"]
-        }
-      },
-      "sort": ["_score", {"createdDate": "desc"}]
-    }
+    "query": {
+      "multi_match": {
+        "query": searchText,
+        "fields": ["Class", "abstract", "description", "instance", "label"]
+      }
+    },
+    "sort": ["_score"]
   }).then(function (resp) {
       return resp.hits.hits;
   }, function (err) {
