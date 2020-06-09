@@ -9,7 +9,7 @@
     <v-card-text>
       <v-autocomplete
         v-model="model"
-        :items="autocompleteResults"
+        :items="items"
         :loading="isLoading"
         :search-input.sync="search"
         v-on:keyup="submitQuery"
@@ -59,6 +59,11 @@
       search: null,
       autocompleteResults: []
     }),
+    computed: {
+      items () {
+        return this.autocompleteResults.filter(entry => entry)
+      },
+    },
     methods: {
       submitQuery(e){
         if(e.keyCode === 13) {

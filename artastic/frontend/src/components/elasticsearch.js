@@ -23,15 +23,21 @@ function search (searchText) {
 
 function parseResultsForAutocomplete(hits){
   return hits.map(function(entry){
-    let x =  [entry['_source']['label']['value'], extractObjClass(entry['_source']['Class']['value'])];
-    console.log(x)
-    return x;
+    let objClass = extractObjClass(entry['_source']['Class']['value']);
+    if(objClass !=  null){
+      return [entry['_source']['label']['value'], objClass];
+    }
+    return null;
   })
 }
 
 function extractObjClass(uri){
   let regExp = /([^/]+$)/;
-  return regExp.exec(uri)[1];
+  let ret = regExp.exec(uri)[1];
+  if(!ret.startsWith("Q")) {
+    return ret;
+  }
+  return null;
 }
 
 export { search }
