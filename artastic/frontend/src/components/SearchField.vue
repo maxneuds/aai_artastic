@@ -1,87 +1,65 @@
 <template>
-  <v-card
-    color="green lighten-2"
-    dark
-  >
-    <v-card-title class="headline green lighten-3">
-      Search for Artworks
-    </v-card-title>
+  <v-card color="blue-grey lighten-5">
+    <v-card-title class="headline blue-grey lighten-2 white--text">Search for Artworks</v-card-title>
+    <v-spacer />
     <v-card-text>
       <v-autocomplete
         v-model="model"
         :items="items"
         :loading="isLoading"
         :search-input.sync="search"
-        v-on:keyup="submitQuery"
-        color="white"
+        item-text="Description"
         filled
-        label="Artworks"
-        placeholder="Search for an Artwork"
+        label="Search"
+        placeholder="Start by typing..."
         prepend-icon="mdi-database-search"
         return-object
-      >
-        <template v-slot:no-data>
-          <v-list-item>
-            <v-list-item-title>
-              Search for an
-              <strong>Artwork</strong>
-            </v-list-item-title>
-          </v-list-item>
-        </template>
-        <template v-slot:item="{item}">
-          <v-list-item-content>
-            <v-list-item-title v-text="item[0]"></v-list-item-title>
-            <v-list-item-subtitle v-text="item[1]"></v-list-item-subtitle>
-          </v-list-item-content>
-        </template>
-      </v-autocomplete>
+      ></v-autocomplete>
     </v-card-text>
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn
-        :disabled="!model"
-        color="grey darken-3"
-        @click="model = null"
-      >
-        Clear
-        <v-icon right>mdi-close-circle</v-icon>
-      </v-btn>
-    </v-card-actions>
   </v-card>
 </template>
 
 <script>
-  import { search } from './elasticsearch.js';
-  export default {
-    data: () => ({
-      isLoading: false,
-      model: null,
-      search: null,
-      autocompleteResults: []
-    }),
-    computed: {
-      items () {
-        return this.autocompleteResults.filter(entry => entry)
-      },
-    },
-    methods: {
-      submitQuery(e){
-        if(e.keyCode === 13) {
-          this.$emit("postQuery", this.search);
-        }
-      }
-    },
-    watch: {
-      search () {
-        if (this.isLoading) return
+import { search as searchElastic } from "./elasticsearch.js";
+export default {
+  data: () => ({
+    isLoading: false,
+    model: null,
+    search: null,
+    descriptionLimit: 60,
+    autocompleteResults: []
+  }),
+  computed: {
+    items() {
+      var entries = this.autocompleteResults.filter(entry => entry);
 
-        this.isLoading = true
-
-        search(this.search)
-          .then(res => this.autocompleteResults = res)
-          .catch(err => console.log(err))
-          .finally(() => this.isLoading=false)
-      },
+      return entries.map(entry => {
+        const Description =
+          entry[0].length > this.descriptionLimit
+            ? entry[0].slice(0, this.descriptionLimit) + "..."
+            : entry[0];
+        return Object.assign({}, entry, { Description });
+      });
     }
-}
+  },
+  methods: {
+    submitQuery(e) {
+      if (e.keyCode === 13) {
+        this.$emit("postQuery", this.search);
+      }
+    }
+  },
+  watch: {
+    search(val) {
+      // Items have already been requested
+      if (this.isLoading) return;
+      this.isLoading = true;
+
+      searchElastic(val)
+        .then(res => (this.autocompleteResults = res))
+        .catch(err => console.log(err))
+        .finally(() => (this.isLoading = false));
+    }
+  }
+};
 </script>
