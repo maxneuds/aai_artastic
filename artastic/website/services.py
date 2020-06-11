@@ -11,12 +11,12 @@ def get_all(query):
 
         SELECT ?property ?value
         WHERE {
-            ?artist rdf:type :abstract_entity ;
+            ?artist rdf:type :artwork ;
             rdfs:label "%s" ;
             ?property ?value .
         }
-     
-    """ % (query)
+
+    """ % query
     sparql.setQuery(query_string)
     # Convert results to JSON format
     sparql.setReturnFormat(JSON)
