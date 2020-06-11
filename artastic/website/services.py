@@ -1,7 +1,11 @@
 from SPARQLWrapper import SPARQLWrapper, JSON
 
 
-def get_all(query):
+def get_all(data):
+    obj_class = data.get('objClass')
+    if not obj_class:
+        obj_class = "artwork"
+    label = data.get('description')
     sparql = SPARQLWrapper("http://172.17.0.1:3030/ArtOntology/sparql")
     query_string = """
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
