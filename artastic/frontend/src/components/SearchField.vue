@@ -8,19 +8,29 @@
         :items="items"
         :loading="isLoading"
         :search-input.sync="search"
-        item-text="Description"
+        v-on:keyup="submitQuery"
         filled
+        clearable
+        item-text="Description"
+        item-value="Description"
         label="Search"
         placeholder="Start by typing..."
         prepend-icon="mdi-database-search"
-        return-object
-      ></v-autocomplete>
+      >
+        <template v-slot:item="{item}">
+          <v-list-item-content>
+            <v-list-item-title v-text="item.Description"></v-list-item-title>
+            <v-list-item-subtitle v-text="item.objClass"></v-list-item-subtitle>
+          </v-list-item-content>
+        </template>
+      </v-autocomplete>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
-import { search as searchElastic } from "./elasticsearch.js";
+import { search as searchElastic } from "./js/elasticsearch.js";
+import { parseAutocomplete } from "./js/parse.js";
 export default {
   data: () => ({
     isLoading: false,
@@ -31,14 +41,15 @@ export default {
   }),
   computed: {
     items() {
-      var entries = this.autocompleteResults.filter(entry => entry);
+      let entries = this.autocompleteResults.filter(entry => entry);
 
       return entries.map(entry => {
         const Description =
           entry[0].length > this.descriptionLimit
             ? entry[0].slice(0, this.descriptionLimit) + "..."
             : entry[0];
-        return Object.assign({}, entry, { Description });
+        const objClass = entry[1];
+        return Object.assign({},{ Description }, { objClass });
       });
     }
   },
@@ -51,12 +62,15 @@ export default {
   },
   watch: {
     search(val) {
+      if(!val){
+        this.autocompleteResults = [];
+      }
       // Items have already been requested
       if (this.isLoading) return;
       this.isLoading = true;
 
       searchElastic(val)
-        .then(res => (this.autocompleteResults = res))
+        .then(res => this.autocompleteResults = parseAutocomplete(res))
         .catch(err => console.log(err))
         .finally(() => (this.isLoading = false));
     }

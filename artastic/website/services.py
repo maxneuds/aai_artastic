@@ -11,7 +11,7 @@ def get_all(query):
 
         SELECT ?property ?value
         WHERE {
-            ?artist rdf:type :person ;
+            ?artist rdf:type :abstract_entity ;
             rdfs:label "%s" ;
             ?property ?value .
         }
