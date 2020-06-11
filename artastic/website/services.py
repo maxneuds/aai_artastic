@@ -10,13 +10,13 @@ def get_all(query):
         PREFIX : <http://h-da.de/fbi/artontology/>
 
         SELECT ?property ?value
-        WHERE {
-            ?artist rdf:type :artwork ;
-            rdfs:label "%s" ;
+        WHERE {{
+            ?artist rdf:type :{0} ;
+            rdfs:label "{1}" ;
             ?property ?value .
-        }
+        }}
 
-    """ % query
+    """.format(obj_class, label)
     sparql.setQuery(query_string)
     # Convert results to JSON format
     sparql.setReturnFormat(JSON)

@@ -43,7 +43,8 @@ export default {
         method: "post",
         url: "http://localhost:8000/api/artworks/",
         data: {
-          data: data
+          description: data.description,
+          objClass: data.objClass
         }
       }).then(response => {
         this.artwork = response.data;

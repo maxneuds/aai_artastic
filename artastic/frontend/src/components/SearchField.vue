@@ -11,15 +11,16 @@
         v-on:keyup="submitQuery"
         filled
         clearable
-        item-text="Description"
-        item-value="Description"
+        item-text="description"
+        item-value="description"
         label="Search"
         placeholder="Start by typing..."
         prepend-icon="mdi-database-search"
+        return-object
       >
         <template v-slot:item="{item}">
           <v-list-item-content>
-            <v-list-item-title v-text="item.Description"></v-list-item-title>
+            <v-list-item-title v-text="item.description"></v-list-item-title>
             <v-list-item-subtitle v-text="item.objClass"></v-list-item-subtitle>
           </v-list-item-content>
         </template>
@@ -44,19 +45,19 @@ export default {
       let entries = this.autocompleteResults.filter(entry => entry);
 
       return entries.map(entry => {
-        const Description =
+        const description =
           entry[0].length > this.descriptionLimit
             ? entry[0].slice(0, this.descriptionLimit) + "..."
             : entry[0];
         const objClass = entry[1];
-        return Object.assign({},{ Description }, { objClass });
+        return Object.assign({},{ description }, { objClass });
       });
     }
   },
   methods: {
     submitQuery(e) {
       if (e.keyCode === 13) {
-        this.$emit("postQuery", this.search);
+        this.$emit("postQuery", this.model);
       }
     }
   },
