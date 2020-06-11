@@ -43,7 +43,6 @@ export default {
   computed: {
     items() {
       let entries = this.autocompleteResults.filter(entry => entry);
-
       return entries.map(entry => {
         const description =
           entry[0].length > this.descriptionLimit
@@ -63,17 +62,18 @@ export default {
   },
   watch: {
     search(val) {
-      if(!val){
+      if(!val) {
         this.autocompleteResults = [];
-      }
-      // Items have already been requested
-      if (this.isLoading) return;
-      this.isLoading = true;
+      }else {
+        // Items have already been requested
+        if (this.isLoading) return;
+        this.isLoading = true;
 
-      searchElastic(val)
-        .then(res => this.autocompleteResults = parseAutocomplete(res))
-        .catch(err => console.log(err))
-        .finally(() => (this.isLoading = false));
+        searchElastic(val)
+          .then(res => this.autocompleteResults = parseAutocomplete(res))
+          .catch(err => console.log(err))
+          .finally(() => (this.isLoading = false));
+      }
     }
   }
 };
