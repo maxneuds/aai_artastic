@@ -2,7 +2,7 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 
 
 def get_all(query):
-    sparql = SPARQLWrapper("http://172.17.0.1:3030/ArtOntology/sparql")
+    sparql = SPARQLWrapper("http://172.18.0.1:3030/ArtOntology/sparql")
     query_string = """
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
