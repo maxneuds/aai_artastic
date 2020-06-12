@@ -1,7 +1,7 @@
 <template>
   <div class="my-2">
-    <v-btn color="blue-grey" fab dark v-on:click="sayHi">
-      <v-icon>mdi-play-circle-outline</v-icon>
+    <v-btn color="blue-grey" fab small dark v-on:click="sayHi">
+      <v-icon>mdi-voice</v-icon>
     </v-btn>
   </div>
 </template>
