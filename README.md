@@ -22,5 +22,5 @@ You can also run this without VS Code and Remote Containers but you have to inst
 * cd `artastic/frontend`
 * run `npm install`
 * open new terminal with `npm run serve`
-* cd `artastic/*
+* cd `artastic/`
 * open new terminal with `python manage.py runserver`
