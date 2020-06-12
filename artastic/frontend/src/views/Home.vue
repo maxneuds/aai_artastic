@@ -14,7 +14,8 @@
       </v-layout>
       <v-layout row wrap class="my-5">
         <v-flex>
-          <ArtworkDetails :artwork="artwork"/>
+          <SoundButton />
+          <ArtworkDetails :artwork="artwork" />
         </v-flex>
       </v-layout>
     </v-container>
@@ -24,11 +25,13 @@
 <script>
 import SearchField from "../components/SearchField";
 import ArtworkDetails from "../components/ArtworkDetails";
+import SoundButton from "../components/SoundButton";
 import axios from "axios";
 export default {
   components: {
     SearchField,
-    ArtworkDetails
+    ArtworkDetails,
+    SoundButton
   },
   data: function() {
     return {
