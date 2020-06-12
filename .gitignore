@@ -133,3 +133,4 @@ artastic/frontend/webpack-stats.json
 
 # big data
 *.pkl
+artastic/pkgs
