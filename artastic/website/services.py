@@ -5,8 +5,8 @@ def get_all(data):
     obj_class = data.get('objClass')
     if not obj_class:
         obj_class = "artwork"
-    label = data.get('description')
-    sparql = SPARQLWrapper("http://172.17.0.1:3030/ArtOntology/sparql")
+    label = data.get('label')
+    sparql = SPARQLWrapper("http://neuds.de:3030")
     query_string = """
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -16,7 +16,7 @@ def get_all(data):
         SELECT ?property ?value
         WHERE {{
             ?artist rdf:type :{0} ;
-            rdfs:label "{1}" ;
+            rdfs:label "{1}" ; 
             ?property ?value .
         }}
 

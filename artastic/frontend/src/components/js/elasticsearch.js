@@ -9,7 +9,8 @@ function search (searchText) {
     "body":{
       "query": {
         "query_string": {
-          "query": searchText
+          "query": "*" + searchText + "*",
+          "fields": ["label.value"]
         }
       }
     }

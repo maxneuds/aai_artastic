@@ -46,7 +46,7 @@ export default {
         method: "post",
         url: "http://localhost:8000/api/artworks/",
         data: {
-          description: data.description,
+          label: data.label,
           objClass: data.objClass
         }
       }).then(response => {

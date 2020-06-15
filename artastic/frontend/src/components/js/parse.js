@@ -1,11 +1,34 @@
 function parseAutocomplete(hits){
-  return hits.map(function(entry){
+  let autocompleteResults =  hits.map(function(entry){
     let objClass = extractObjClass(entry['_source']['Class']['value']);
     if(objClass !=  null){
-      return [entry['_source']['label']['value'], objClass];
+      let resultId = hits.indexOf(entry);
+      let label = entry['_source']['label']['value'];
+      return {
+        resultId : resultId,
+        objClass : objClass,
+        label : label
+      };
     }
-    return null;
-  })
+  }).filter(entry => entry != null);
+
+  let ret = [];
+  for(let index = 0; index < autocompleteResults.length; ++index){
+    if(!containsAutocompleteResult(ret, autocompleteResults[index])){
+      ret.push(autocompleteResults[index]);
+    }
+  }
+  return ret;
+}
+
+function containsAutocompleteResult(output, entry) {
+  for(let index = 0; index < output.length; ++index){
+    let currentEntry = output[index];
+    if(currentEntry.objClass === entry.objClass && currentEntry.label === entry.label){
+      return true;
+    }
+  }
+  return false;
 }
 
 function extractObjClass(uri){
