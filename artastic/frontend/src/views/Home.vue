@@ -14,7 +14,7 @@
       </v-layout>
       <v-layout row wrap class="my-5">
         <v-flex>
-          <SoundButton />
+          <SoundButton :text="'Max'" />
           <ArtworkDetails :artwork="artwork" />
         </v-flex>
       </v-layout>

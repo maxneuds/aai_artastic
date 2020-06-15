@@ -1,6 +1,6 @@
 <template>
   <div class="my-2">
-    <v-btn color="blue-grey" fab small dark v-on:click="sayHi">
+    <v-btn color="blue-grey" fab small dark v-on:click="sayHi(text)">
       <v-icon>mdi-voice</v-icon>
     </v-btn>
   </div>
@@ -8,9 +8,10 @@
 
 <script>
 export default {
+  props: ["text"],
   methods: {
-    sayHi() {
-      console.log("Hi!");
+    sayHi(text) {
+      console.log("Hi " + text + "!");
     }
   }
 };
