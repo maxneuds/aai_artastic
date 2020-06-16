@@ -1,5 +1,8 @@
 <template>
-  <v-card class="mx-auto" max-width="400">
+  <v-card
+    class="mx-auto"
+    max-width="400"
+  >
     <v-img
       class="white--text align-end"
       height="200px"
@@ -11,20 +14,22 @@
     <v-card-subtitle class="pb-0">Artwork</v-card-subtitle>
 
     <v-card-text class="text--primary" v-if="artwork">
-      <div>Title: {{artwork[0]}}</div>
+      <div>Title: </div>
 
-      <div>Artist: {{artwork[1]}}</div>
+      <div>Artist: </div>
+      
+      <div>Movement: </div>
 
-      <div>Movement: {{artwork[2]}}</div>
+      <div>Material: </div>
 
-      <div>Material: {{artwork[3]}}</div>
+      <div>Location: </div>
 
-      <div>Location: {{artwork[4]}}</div>
+      <div>Description: </div>
 
-      <div>Description: {{artwork[5]}}</div>
+      <div>Abstract: {{artwork.results}}</div>
 
-      <div>Abstract: {{artwork[6]}}</div>
     </v-card-text>
+    
   </v-card>
 </template>
 
