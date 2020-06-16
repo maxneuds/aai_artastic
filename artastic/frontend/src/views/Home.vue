@@ -49,7 +49,7 @@ export default {
         }
       }).then(response => {
         this.artworks = response.data.results.bindings;
-        console.log(this.artworks);
+        console.log(response.data);
       });
     }
   }
