@@ -1,32 +1,28 @@
-<template>
+<template v-if="artwork">
   <v-card
     class="mx-auto"
     max-width="400"
   >
     <v-img
       class="white--text align-end"
-      height="200px"
-      src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+      :src="artwork.results.bindings[0].image.value"
     >
-      <v-card-title>Artworktitle</v-card-title>
+      <v-card-title>{{artwork.results.bindings[0].label.value}}</v-card-title>
     </v-img>
 
     <v-card-subtitle class="pb-0">Artwork</v-card-subtitle>
 
     <v-card-text class="text--primary" v-if="artwork">
-      <div>Title: </div>
 
-      <div>Artist: </div>
+      <div>Artist: {{artwork.results.bindings[0].artist.value}}</div>
       
-      <div>Movement: </div>
+      <div>Movement: {{artwork.results.bindings[0].movement.value}}</div>
 
-      <div>Material: </div>
+      <div>Material: {{artwork.results.bindings[0].material.value}}</div>
 
-      <div>Location: </div>
+      <div>Description: {{artwork.results.bindings[0].description.value}}</div>
 
-      <div>Description: </div>
-
-      <div>Abstract: {{artwork.results}}</div>
+      <div>Abstract: {{artwork.results.bindings[0].abstract.value}}</div>
 
     </v-card-text>
     
