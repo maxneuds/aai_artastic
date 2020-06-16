@@ -14,7 +14,7 @@
       </v-layout>
       <v-layout row wrap class="my-5">
         <v-flex>
-          <CardList v-if="artworks" :cards="artworks" />
+          <CardList v-if="artworks" :cards="artworks" :objClass="objClass" />
         </v-flex>
       </v-layout>
     </v-container>
@@ -49,7 +49,8 @@ export default {
         }
       }).then(response => {
         this.artworks = response.data.results.bindings;
-        console.log(response.data);
+        console.log(this.objClass);
+        console.log(this.artworks);
       });
     }
   }
