@@ -24,7 +24,6 @@
 <script>
 import SearchField from "../components/SearchField";
 import ArtworkCard from "../components/Cards/Artwork_card"
-import { parseArtwork } from "../components/js/parse.js";
 import axios from "axios";
 export default {
   components: {
@@ -47,7 +46,7 @@ export default {
           data: data
         }
       }).then(response => {
-        this.artwork = parseArtwork(response.data);
+        this.artwork = response.data;
       });
     }
   }

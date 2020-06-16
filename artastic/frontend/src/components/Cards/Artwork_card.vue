@@ -14,19 +14,19 @@
     <v-card-subtitle class="pb-0">Artwork</v-card-subtitle>
 
     <v-card-text class="text--primary" v-if="artwork">
-      <div>Title: {{artwork[0]}}</div>
+      <div>Title: </div>
 
-      <div>Artist: {{artwork[1]}}</div>
+      <div>Artist: </div>
       
-      <div>Movement: {{artwork[2]}}</div>
+      <div>Movement: </div>
 
-      <div>Material: {{artwork[3]}}</div>
+      <div>Material: </div>
 
-      <div>Location: {{artwork[4]}}</div>
+      <div>Location: </div>
 
-      <div>Description: {{artwork[5]}}</div>
+      <div>Description: </div>
 
-      <div>Abstract: {{artwork[6]}}</div>
+      <div>Abstract: {{artwork.results}}</div>
 
     </v-card-text>
     
