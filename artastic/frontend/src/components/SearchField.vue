@@ -90,7 +90,7 @@ export default {
         this.isLoading = true;
 
         searchElastic(val)
-          .then(res => this.autocompleteResults = parseAutocomplete(res))
+          .then(res => (this.autocompleteResults = parseAutocomplete(res)))
           .catch(err => console.log(err))
           .finally(() => (this.isLoading = false));
       }

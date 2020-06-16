@@ -15,7 +15,7 @@
       <v-layout row wrap class="my-5">
         <v-flex>
           <SoundButton :text="'Max'" />
-          <ArtworkDetails :artwork="artwork" />
+          <CardList v-if="artworks" :cards="artworks" :objClass="objClass" />
         </v-flex>
       </v-layout>
     </v-container>
@@ -24,22 +24,24 @@
 
 <script>
 import SearchField from "../components/SearchField";
-import ArtworkDetails from "../components/ArtworkDetails";
 import SoundButton from "../components/SoundButton";
+import CardList from "../components/Cards/CardList";
 import axios from "axios";
 export default {
   components: {
     SearchField,
-    ArtworkDetails,
-    SoundButton
+    SoundButton,
+    CardList
   },
   data: function() {
     return {
-      artwork: []
+      artworks: [],
+      objClass: null
     };
   },
   methods: {
     postQuery: function(data) {
+        this.objClass = data.objClass;
       axios.defaults.xsrfCookieName = "csrftoken";
       axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
       axios({
@@ -50,7 +52,9 @@ export default {
           objClass: data.objClass
         }
       }).then(response => {
-        this.artwork = response.data;
+        this.artworks = response.data.results.bindings;
+        console.log(this.objClass);
+        console.log(this.artworks);
       });
     }
   }

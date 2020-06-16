@@ -131,6 +131,9 @@ dmypy.json
 # Webpack Stats
 artastic/frontend/webpack-stats.json
 
+# Migrations
+artastic/website/migrations/
+
 # big data
 *.pkl
 artastic/pkgs
