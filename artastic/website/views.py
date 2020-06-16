@@ -11,5 +11,12 @@ class ArtworkList(APIView):
     def post(self, request):
         data = request.data
         print(data)
-        informations = utils.get_all(data['data'])
+        informations = utils.get_artwork(data['data'])
+        return Response(informations)
+
+class GetArtist(APIView):
+    def post(self, request):
+        data = request.data
+        print(data)
+        informations = utils.get_artist(data['data'])
         return Response(informations)
