@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     postQuery: function(data) {
-        this.objClass = data.objClass;
+      this.objClass = data.objClass;
       axios.defaults.xsrfCookieName = "csrftoken";
       axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
       axios({

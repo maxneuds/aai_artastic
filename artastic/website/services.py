@@ -1,7 +1,8 @@
 from SPARQLWrapper import SPARQLWrapper, JSON
 
 
-def get_artwork(query):
+def get_artwork(data):
+    _, label = extract_query_params(data)
     sparql = SPARQLWrapper("http://neuds.de:3030/artontology/sparql")
     query_string = """
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -10,9 +11,9 @@ def get_artwork(query):
         PREFIX : <http://h-da.de/fbi/artontology/>
 
         SELECT  ?label ?description ?abstract ?image ?artist ?movement ?material
-        WHERE {
+        WHERE {{
             ?a rdf:type :artwork ; 
-            rdfs:label "%s" ;
+            rdfs:label "{0}" ;
             rdfs:label ?label;
             :description ?description;
             :abstract ?abstract;
@@ -20,11 +21,8 @@ def get_artwork(query):
             :artist/rdfs:label ?artist;
             :movement/rdfs:label ?movement;
             :material/rdfs:label ?material;
-        }
-
-
-    """ % query
-    #  TODO Use correct format and query param
+        }}
+    """.format(label)
     sparql.setQuery(query_string)
     # Convert results to JSON format
     sparql.setReturnFormat(JSON)
@@ -32,7 +30,8 @@ def get_artwork(query):
     return result
 
 
-def get_artist(query):
+def get_artist(data):
+    _, label = extract_query_params(data)
     sparql = SPARQLWrapper("http://neuds.de:3030/artontology/sparql")
     query_string = """
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -41,7 +40,7 @@ def get_artist(query):
         PREFIX : <http://h-da.de/fbi/artontology/>
 
         SELECT  ?la ?l ?db ?pb ?dd ?pd
-        WHERE { 
+        WHERE {{ 
             ?a rdf:type :artwork ;
             rdfs:label ?l ;
             :artist/:date_of_birth ?db;
@@ -49,11 +48,9 @@ def get_artist(query):
             :artist/:date_of_death ?dd;
             :artist/:place_of_death ?pd ;
             :artist/rdfs:label ?la;
-            :artist/rdfs:label "Leonardo da Vinci" . 
-}
-
-    """ % query
-    #  TODO Use correct format and query param
+            :artist/rdfs:label "{0}" . 
+        }}
+    """ .format(label)
     sparql.setQuery(query_string)
     # Convert results to JSON format
     sparql.setReturnFormat(JSON)
@@ -62,10 +59,7 @@ def get_artist(query):
 
 
 def get_all(data):
-    obj_class = data.get('objClass')
-    if not obj_class:
-        obj_class = "artwork"
-    label = data.get('label')
+    obj_class, label = extract_query_params(data)
     sparql = SPARQLWrapper("http://neuds.de:3030/artontology/sparql")
     query_string = """
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -79,10 +73,17 @@ def get_all(data):
             rdfs:label "{1}" ; 
             ?property ?value .
         }}
-
     """.format(obj_class, label)
     sparql.setQuery(query_string)
     # Convert results to JSON format
     sparql.setReturnFormat(JSON)
     result = sparql.query().convert()
     return result
+
+
+def extract_query_params(data):
+    obj_class = data.get('objClass')
+    if not obj_class:
+        obj_class = "artwork"
+    label = data.get('label')
+    return obj_class, label
