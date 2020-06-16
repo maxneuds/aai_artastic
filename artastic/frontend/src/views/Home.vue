@@ -14,7 +14,7 @@
       </v-layout>
       <v-layout row wrap class="my-5">
         <v-flex>
-          <ArtworkCard :artwork="artwork"/>
+          <ArtworkCard :artwork="artwork" />
         </v-flex>
       </v-layout>
     </v-container>
@@ -23,7 +23,7 @@
 
 <script>
 import SearchField from "../components/SearchField";
-import ArtworkCard from "../components/Cards/Artwork_card"
+import ArtworkCard from "../components/Cards/Artwork_card";
 import { parseArtwork } from "../components/js/parse.js";
 import axios from "axios";
 export default {

@@ -1,8 +1,5 @@
 <template>
-  <v-card
-    class="mx-auto"
-    max-width="400"
-  >
+  <v-card class="mx-auto" max-width="400">
     <v-img
       class="white--text align-end"
       height="200px"
@@ -17,7 +14,7 @@
       <div>Title: {{artwork[0]}}</div>
 
       <div>Artist: {{artwork[1]}}</div>
-      
+
       <div>Movement: {{artwork[2]}}</div>
 
       <div>Material: {{artwork[3]}}</div>
@@ -27,9 +24,7 @@
       <div>Description: {{artwork[5]}}</div>
 
       <div>Abstract: {{artwork[6]}}</div>
-
     </v-card-text>
-    
   </v-card>
 </template>
 
