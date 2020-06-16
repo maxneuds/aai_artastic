@@ -1,23 +1,24 @@
 from SPARQLWrapper import SPARQLWrapper, JSON
 
 def get_artwork(query):
-    sparql = SPARQLWrapper("http://neuds.de:3030/artontology/sparql/ArtOntology/sparql")
+    sparql = SPARQLWrapper("http://neuds.de:3030/artontology/sparql")
     query_string = """
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
         PREFIX wd: <http://www.wikidata.org/entity/>
         PREFIX : <http://h-da.de/fbi/artontology/>
 
-        SELECT  ?d ?ab ?i ?la ?ml ?matl
+        SELECT  ?label ?description ?abstract ?image ?artist ?movement ?material
         WHERE {
             ?a rdf:type :artwork ; 
             rdfs:label "%s" ;
-            :description ?d;
-            :abstract ?ab;
-            :image ?i;
-            :artist/rdfs:label ?la;
-            :movement/rdfs:label ?ml;
-            :material/rdfs:label ?matl;
+            rdfs:label ?label;
+            :description ?description;
+            :abstract ?abstract;
+            :image ?image;
+            :artist/rdfs:label ?artist;
+            :movement/rdfs:label ?movement;
+            :material/rdfs:label ?material;
         }
         Limit 1
 
@@ -29,7 +30,7 @@ def get_artwork(query):
     return result
 
 def get_artist(query):
-    sparql = SPARQLWrapper("http://neuds.de:3030/artontology/sparql/ArtOntology/sparql")
+    sparql = SPARQLWrapper("http://neuds.de:3030/artontology/sparql")
     query_string = """
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
