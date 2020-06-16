@@ -1,32 +1,25 @@
 <template>
   <v-container fluid>
     <v-row dense>
-      <v-col v-for="card in cards" :key="card.title" :cols="card.flex">
-        <v-card>
-          <v-img
-            :src="card.src"
-            class="white--text align-end"
-            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-            height="200px"
-          >
-            <v-card-title v-text="card.title"></v-card-title>
+      <v-col v-for="artwork in cards" :key="artwork.title" cols="4">
+        <v-card class="mx-auto" max-width="400">
+          <v-img class="white--text align-end" :src="artwork.image.value">
+            <v-card-title>{{artwork.label.value}}</v-card-title>
           </v-img>
 
-          <v-card-actions>
-            <v-spacer></v-spacer>
+          <v-card-subtitle class="pb-0">Artwork</v-card-subtitle>
 
-            <v-btn icon>
-              <v-icon>mdi-heart</v-icon>
-            </v-btn>
+          <v-card-text class="text--primary" v-if="artwork">
+            <div>Artist: {{artwork.artist.value}}</div>
 
-            <v-btn icon>
-              <v-icon>mdi-bookmark</v-icon>
-            </v-btn>
+            <div>Movement: {{artwork.movement.value}}</div>
 
-            <v-btn icon>
-              <v-icon>mdi-share-variant</v-icon>
-            </v-btn>
-          </v-card-actions>
+            <div>Material: {{artwork.material.value}}</div>
+
+            <div>Description: {{artwork.description.value}}</div>
+
+            <div>Abstract: {{artwork.abstract.value}}</div>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>

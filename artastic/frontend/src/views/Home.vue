@@ -14,7 +14,7 @@
       </v-layout>
       <v-layout row wrap class="my-5">
         <v-flex>
-          <CardList v-if="cards" :cards="cards" />
+          <CardList v-if="artworks" :cards="artworks" />
         </v-flex>
       </v-layout>
     </v-container>
@@ -32,28 +32,13 @@ export default {
   },
   data: function() {
     return {
-      artwork: [],
-      cards: [
-        {
-          title: "Pre-fab homes",
-          src: "https://cdn.vuetifyjs.com/images/cards/house.jpg",
-          flex: 4
-        },
-        {
-          title: "Favorite road trips",
-          src: "https://cdn.vuetifyjs.com/images/cards/road.jpg",
-          flex: 4
-        },
-        {
-          title: "Best airlines",
-          src: "https://cdn.vuetifyjs.com/images/cards/plane.jpg",
-          flex: 4
-        }
-      ]
+      artworks: [],
+      objClass: null
     };
   },
   methods: {
-    postQuery: function(data) {
+    postQuery: function(data, objClass) {
+      this.objClass = objClass;
       axios.defaults.xsrfCookieName = "csrftoken";
       axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
       axios({
@@ -63,7 +48,8 @@ export default {
           data: data
         }
       }).then(response => {
-        this.artwork = response.data;
+        this.artworks = response.data.results.bindings;
+        console.log(this.artworks);
       });
     }
   }

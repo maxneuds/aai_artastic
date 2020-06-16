@@ -36,6 +36,7 @@ export default {
     isLoading: false,
     model: null,
     search: null,
+    objClass: null,
     descriptionLimit: 60,
     autocompleteResults: []
   }),
@@ -49,20 +50,21 @@ export default {
             ? entry[0].slice(0, this.descriptionLimit) + "..."
             : entry[0];
         const objClass = entry[1];
-        return Object.assign({},{ Description }, { objClass });
+        this.objClass = objClass;
+        return Object.assign({}, { Description }, { objClass });
       });
     }
   },
   methods: {
     submitQuery(e) {
       if (e.keyCode === 13) {
-        this.$emit("postQuery", this.search);
+        this.$emit("postQuery", this.search, this.objClass);
       }
     }
   },
   watch: {
     search(val) {
-      if(!val){
+      if (!val) {
         this.autocompleteResults = [];
       }
       // Items have already been requested
@@ -70,7 +72,7 @@ export default {
       this.isLoading = true;
 
       searchElastic(val)
-        .then(res => this.autocompleteResults = parseAutocomplete(res))
+        .then(res => (this.autocompleteResults = parseAutocomplete(res)))
         .catch(err => console.log(err))
         .finally(() => (this.isLoading = false));
     }
