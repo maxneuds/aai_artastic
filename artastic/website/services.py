@@ -9,16 +9,17 @@ def get_artwork(query):
         PREFIX wd: <http://www.wikidata.org/entity/>
         PREFIX : <http://h-da.de/fbi/artontology/>
 
-        SELECT  ?d ?ab ?i ?la ?ml ?matl
+        SELECT  ?label ?description ?abstract ?image ?artist ?movement ?material
         WHERE {
             ?a rdf:type :artwork ; 
             rdfs:label "%s" ;
-            :description ?d;
-            :abstract ?ab;
-            :image ?i;
-            :artist/rdfs:label ?la;
-            :movement/rdfs:label ?ml;
-            :material/rdfs:label ?matl;
+            rdfs:label ?label;
+            :description ?description;
+            :abstract ?abstract;
+            :image ?image;
+            :artist/rdfs:label ?artist;
+            :movement/rdfs:label ?movement;
+            :material/rdfs:label ?material;
         }
 
 
