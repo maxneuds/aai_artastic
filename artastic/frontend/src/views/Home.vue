@@ -14,7 +14,7 @@
       </v-layout>
       <v-layout row wrap class="my-5">
         <v-flex>
-          <ArtworkCard :artwork="artwork"/>
+          <CardList v-if="cards" :cards="cards" />
         </v-flex>
       </v-layout>
     </v-container>
@@ -23,16 +23,33 @@
 
 <script>
 import SearchField from "../components/SearchField";
-import ArtworkCard from "../components/Cards/Artwork_card"
+import CardList from "../components/Cards/CardList";
 import axios from "axios";
 export default {
   components: {
     SearchField,
-    ArtworkCard
+    CardList
   },
   data: function() {
     return {
-      artwork: []
+      artwork: [],
+      cards: [
+        {
+          title: "Pre-fab homes",
+          src: "https://cdn.vuetifyjs.com/images/cards/house.jpg",
+          flex: 4
+        },
+        {
+          title: "Favorite road trips",
+          src: "https://cdn.vuetifyjs.com/images/cards/road.jpg",
+          flex: 4
+        },
+        {
+          title: "Best airlines",
+          src: "https://cdn.vuetifyjs.com/images/cards/plane.jpg",
+          flex: 4
+        }
+      ]
     };
   },
   methods: {
