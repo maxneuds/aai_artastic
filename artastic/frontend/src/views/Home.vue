@@ -15,7 +15,7 @@
       <v-layout row wrap class="my-5">
         <v-flex>
           <SoundButton :text="'Max'" />
-          <CardList v-if="artworks" :cards="artworks" :objClass="objClass" />
+          <CardList v-if="artworks" :cards="artworks" :searchWords="searchWords" :objClass="objClass" />
         </v-flex>
       </v-layout>
     </v-container>
@@ -36,6 +36,7 @@ export default {
   data: function() {
     return {
       artworks: [],
+      searchWords: [],
       objClass: null
     };
   },
@@ -52,9 +53,8 @@ export default {
           objClass: data.objClass
         }
       }).then(response => {
-        this.artworks = response.data.results.bindings;
-        console.log(this.objClass);
-        console.log(this.artworks);
+        this.artworks = response.data.result.results.bindings;
+        this.searchWords = response.data.searchWords;
       });
     }
   }

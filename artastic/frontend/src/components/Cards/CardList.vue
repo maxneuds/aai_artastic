@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row dense>
       <v-col v-for="artwork in cards" :key="artwork.title" cols="4">
-        <ArtworkCard v-if="objClass === 'artwork' || objClass === 'motif'" :artwork="artwork" />
+        <ArtworkCard v-if="objClass === 'artwork' || objClass === 'motif'" :artwork="artwork" :searchWords="searchWords"/>
       </v-col>
     </v-row>
   </v-container>
@@ -14,7 +14,7 @@ export default {
   components: {
     ArtworkCard
   },
-  props: ["cards", "objClass"]
+  props: ["cards", "objClass", "searchWords"]
 };
 </script>
 

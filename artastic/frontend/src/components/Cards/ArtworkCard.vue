@@ -15,13 +15,22 @@
 
       <div>Description: {{artwork.description.value}}</div>
 
-      <div>Abstract: {{artwork.abstract.value}}</div>
+      <div>Abstract: <span v-html="highlightSearchWords(artwork.abstract.value, searchWords)"></span></div>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
 export default {
-  props: ["artwork"]
+  props: ["artwork", "search-words"],
+
+  methods:{
+    highlightSearchWords(abstract, searchWords){
+      let query = new RegExp(searchWords.join('|'), "g");
+      return abstract.replace(query, function (matchedTxt){
+        return ('<strong>' + matchedTxt + '</strong>') //TODO Find way to use v-chip
+      })
+    }
+  }
 };
 </script>
