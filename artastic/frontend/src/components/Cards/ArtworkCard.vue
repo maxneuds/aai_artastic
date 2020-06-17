@@ -1,6 +1,6 @@
 <template v-if="artwork">
   <v-card class="mx-auto" max-width="400">
-    <v-img class="white--text align-end" :src="artwork.image.value">
+    <v-img class="white--text align-end" height="200px" :src="artwork.image.value">
       <v-card-title>{{artwork.label.value}}</v-card-title>
     </v-img>
 

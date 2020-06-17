@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row dense>
       <v-col v-for="artwork in cards" :key="artwork.title" cols="4">
-        <ArtworkCard v-if="objClass === 'motif'" :artwork="artwork" />
+        <ArtworkCard v-if="objClass === 'artwork' || objClass === 'motif'" :artwork="artwork" />
       </v-col>
     </v-row>
   </v-container>
