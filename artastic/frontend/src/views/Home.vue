@@ -14,12 +14,26 @@
       </v-layout>
       <v-layout row wrap class="my-5">
         <v-flex>
+          <v-chip
+            v-for="chip in chips"
+            :key="chip"
+            close
+            @click:close="remove(chip)"
+            class="ma-2"
+            color="green"
+            text-color="white"
+          >{{chip}}</v-chip>
+        </v-flex>
+      </v-layout>
+      <v-layout row wrap class="my-5">
+        <v-flex>
           <SoundButton :text="'Max'" />
           <CardList
             v-if="artworks"
             :cards="artworks"
             :searchWords="searchWords"
             :objClass="objClass"
+            @generateChip="generateChip"
           />
         </v-flex>
       </v-layout>
@@ -42,10 +56,21 @@ export default {
     return {
       artworks: [],
       searchWords: [],
+      chips: [],
       objClass: null
     };
   },
   methods: {
+    remove(item) {
+      const index = this.chips.indexOf(item);
+      if (index >= 0) this.chips.splice(index, 1);
+    },
+    generateChip: function(text) {
+      // only generate Chip if this chip is new
+      if (!this.chips.includes(text)) {
+        this.chips.push(text);
+      }
+    },
     postQuery: function(data) {
       this.objClass = data.objClass;
       axios.defaults.xsrfCookieName = "csrftoken";

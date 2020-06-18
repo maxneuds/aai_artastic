@@ -16,7 +16,11 @@
       <div>Description: {{artwork.description.value}}</div>
 
       <div>
-        <text-highlight :queries="searchWords">Abstract: {{artwork.abstract.value}}</text-highlight>
+        <text-highlight
+          :queries="searchWords"
+          :highlightComponent="ClickableHighlightComponent"
+          @generateChip="generateChip"
+        >Abstract: {{artwork.abstract.value}}</text-highlight>
       </div>
     </v-card-text>
   </v-card>
@@ -24,8 +28,17 @@
 
 <script>
 import TextHighlight from "vue-text-highlight";
+import ClickableHighlightComponent from "../ClickableHighlightComponent";
 export default {
   components: { TextHighlight },
+  data: () => ({
+    ClickableHighlightComponent
+  }),
+  methods: {
+    generateChip: function(text) {
+      this.$emit("generateChip", text);
+    }
+  },
   props: ["artwork", "search-words"]
 };
 </script>

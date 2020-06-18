@@ -49,7 +49,7 @@ export default {
             : entry.label;
         const resultId = entry.resultId;
         const objClass = entry.objClass;
-        return Object.assign({},{resultId}, {label}, {objClass});
+        return Object.assign({}, { resultId }, { label }, { objClass });
       });
     }
   },
@@ -60,31 +60,31 @@ export default {
         this.$emit("postQuery", queryParam);
       }
     },
-    getCorrectQueryParam(){
-      if(this.model){
-        if(Object.prototype.hasOwnProperty.call(this.model, "label")){
-          if(this.model.label.includes(this.search)){
+    getCorrectQueryParam() {
+      if (this.model) {
+        if (Object.prototype.hasOwnProperty.call(this.model, "label")) {
+          if (this.model.label.includes(this.search)) {
             return this.model;
-          }else{
+          } else {
             return this.items[0];
           }
-        }else {
-          if(this.model.contains(this.search)){
+        } else {
+          if (this.model.contains(this.search)) {
             return this.model;
-          }else{
+          } else {
             return this.items[0];
           }
         }
-      }else{
+      } else {
         return this.items[0];
       }
     }
   },
   watch: {
     search(val) {
-      if(!val || val.length < 2) {
+      if (!val || val.length < 2) {
         this.autocompleteResults = [];
-      }else {
+      } else {
         // Items have already been requested
         if (this.isLoading) return;
         this.isLoading = true;

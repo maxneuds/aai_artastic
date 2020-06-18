@@ -2,7 +2,12 @@
   <v-container fluid>
     <v-row dense>
       <v-col v-for="artwork in cards" :key="artwork.title" cols="4">
-        <ArtworkCard v-if="objClass === 'artwork'" :artwork="artwork" :searchWords="searchWords" />
+        <ArtworkCard
+          v-if="objClass === 'artwork'"
+          :artwork="artwork"
+          :searchWords="searchWords"
+          @generateChip="generateChip"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -14,7 +19,13 @@ export default {
   components: {
     ArtworkCard
   },
-  props: ["cards", "objClass", "searchWords"]
+  props: ["cards", "objClass", "searchWords"],
+  methods: {
+    generateChip: function(text) {
+      console.log("Cardlist");
+      this.$emit("generateChip", text);
+    }
+  }
 };
 </script>
 
