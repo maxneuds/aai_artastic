@@ -29,16 +29,28 @@
 <script>
 import TextHighlight from "vue-text-highlight";
 import ClickableHighlightComponent from "../ClickableHighlightComponent";
+import {search as searchElastic} from "../js/elasticsearch"
+import {parseObjClass} from "../js/parse"
 export default {
   components: { TextHighlight },
   data: () => ({
     ClickableHighlightComponent
   }),
   methods: {
-    generateChip: function(text) {
-      this.$emit("generateChip", text);
+    generateChip:async function(text) {
+      let label = text;
+      await searchElastic(text)
+          .then(res => {
+            let objClass = parseObjClass(res);
+            if(objClass){
+              label = label + ' (' + objClass + ')';
+            }
+          })
+          .catch(err => console.log(err));
+
+      this.$emit("generateChip", label);
     }
   },
-  props: ["artwork", "search-words"]
+  props: ["artwork", "searchWords"]
 };
 </script>

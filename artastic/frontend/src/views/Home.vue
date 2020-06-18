@@ -13,6 +13,9 @@
         </v-flex>
       </v-layout>
       <v-layout row wrap class="my-5">
+        <v-btn color="blue-grey" fab small dark v-on:click="clearChips">
+          <v-icon>mdi-clear</v-icon>
+        </v-btn>
         <v-flex>
           <v-chip
             v-for="chip in chips"
@@ -26,8 +29,8 @@
         </v-flex>
       </v-layout>
       <v-layout row wrap class="my-5">
+        <SoundButton :text="'Max'" />
         <v-flex>
-          <SoundButton :text="'Max'" />
           <CardList
             v-if="data"
             :cards="data"
@@ -87,6 +90,9 @@ export default {
         this.data = response.data.result.results.bindings;
         this.searchWords = response.data.searchWords;
       });
+    },
+    clearChips(){
+      this.chips = [];
     }
   }
 };

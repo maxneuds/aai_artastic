@@ -56,7 +56,6 @@ export default {
   methods: {
     submitQuery(e) {
       if (e.keyCode === 13) {
-        console.log(this.model);
         let queryParam = this.getCorrectQueryParam();
         this.$emit("postQuery", queryParam);
       }

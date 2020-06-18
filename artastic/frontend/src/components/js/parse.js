@@ -40,4 +40,8 @@ function extractObjClass(uri){
   return null;
 }
 
-export {parseAutocomplete}
+function parseObjClass(hits){
+  return extractObjClass(hits[0]._source.Class.value);
+}
+
+export {parseAutocomplete, parseObjClass}
