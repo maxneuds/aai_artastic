@@ -16,7 +16,6 @@
         label="Search"
         placeholder="Start by typing..."
         prepend-icon="mdi-database-search"
-        return-object
       >
         <template v-slot:item="{parent, item}">
           <v-list-item-content>
