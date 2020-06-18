@@ -16,6 +16,7 @@
         label="Search"
         placeholder="Start by typing..."
         prepend-icon="mdi-database-search"
+        return-object
       >
         <template v-slot:item="{parent, item}">
           <v-list-item-content>
@@ -55,6 +56,7 @@ export default {
   methods: {
     submitQuery(e) {
       if (e.keyCode === 13) {
+        console.log(this.model);
         let queryParam = this.getCorrectQueryParam();
         this.$emit("postQuery", queryParam);
       }

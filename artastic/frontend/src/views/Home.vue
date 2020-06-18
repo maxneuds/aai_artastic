@@ -29,8 +29,8 @@
         <v-flex>
           <SoundButton :text="'Max'" />
           <CardList
-            v-if="artworks"
-            :cards="artworks"
+            v-if="data"
+            :cards="data"
             :searchWords="searchWords"
             :objClass="objClass"
             @generateChip="generateChip"
@@ -54,7 +54,7 @@ export default {
   },
   data: function() {
     return {
-      artworks: [],
+      data: [],
       searchWords: [],
       chips: [],
       objClass: null
@@ -73,18 +73,18 @@ export default {
     },
     postQuery: function(data) {
       this.objClass = data.objClass;
+      var url = this.objClass + "/";
       axios.defaults.xsrfCookieName = "csrftoken";
       axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
       axios({
         method: "post",
-        url: "http://localhost:8000/api/artworks/",
+        url: "http://localhost:8000/api/" + url,
         data: {
           label: data.label,
           objClass: data.objClass
         }
       }).then(response => {
-        this.artworks = response.data.result.results.bindings;
-        console.log(this.artworks);
+        this.data = response.data.result.results.bindings;
         this.searchWords = response.data.searchWords;
       });
     }

@@ -13,7 +13,7 @@ def get_artwork(data):
 
         SELECT  ?label ?description ?abstract ?image ?artist ?movement ?material
         WHERE {{
-            ?a rdf:type :artwork ; 
+            ?a rdf:type :artwork ;
             rdfs:label "{0}" ;
             rdfs:label ?label;
             :description ?description;
@@ -28,11 +28,7 @@ def get_artwork(data):
     # Convert results to JSON format
     sparql.setReturnFormat(JSON)
     result = sparql.query().convert()
-    if len(result.get('results').get('bindings')) > 0:
-        search_words = get_search_words(result.get('results').get('bindings')[
-                                        0].get('abstract').get('value'))
-    else:
-        search_words = []
+    search_words = search_result(result)
     return {
         "result": result,
         "searchWords": search_words
@@ -48,25 +44,33 @@ def get_artist(data):
         PREFIX wd: <http://www.wikidata.org/entity/>
         PREFIX : <http://h-da.de/fbi/artontology/>
 
-        SELECT  ?la ?l ?db ?pb ?dd ?pd
-        WHERE {{ 
-            ?a rdf:type :artwork ;
-            rdfs:label ?l ;
-            :artist/:date_of_birth ?db;
-            :artist/:place_of_birth ?pb ;
-            :artist/:date_of_death ?dd;
-            :artist/:place_of_death ?pd ;
-            :artist/rdfs:label ?la;
-            :artist/rdfs:label "{0}" . 
+        SELECT  ?label ?description ?image ?abstract ?wikilink ?gender ?dob ?dod ?pob ?pod ?mov
+        WHERE{{
+            ?p rdf:type :person ;
+            rdfs:label ?label;
+            rdfs:label "{0}";
+            :description ?description;
+            :image ?image;
+            :abstract ?abstract;
+            :wikipediaLink ?wikilink;
+            :gender ?gender;
+            :date_of_birth ?dob;
+            :date_of_death ?dod;
+            :place_of_birth ?pob;
+            :place_of_death ?pod;
+            :movement ?mov;
         }}
+
     """ .format(label)
     sparql.setQuery(query_string)
     # Convert results to JSON format
     sparql.setReturnFormat(JSON)
     result = sparql.query().convert()
+    print(result)
+    search_words = search_result(result)
     return {
         "result": result,
-        "searchWords": []
+        "searchWords": search_words
     }
 
 
@@ -91,6 +95,15 @@ def get_all(data):
     sparql.setReturnFormat(JSON)
     result = sparql.query().convert()
     return result
+
+
+def search_result(result):
+    if len(result.get('results').get('bindings')) > 0:
+        search_words = get_search_words(result.get('results').get('bindings')[
+                                        0].get('abstract').get('value'))
+    else:
+        search_words = []
+    return search_words
 
 
 def extract_query_params(data):
