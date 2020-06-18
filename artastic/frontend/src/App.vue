@@ -8,7 +8,6 @@
 </template>
 
 <script>
-// import Home from "./pages/Home.vue";
 import AppBar from "@/components/AppBar";
 export default {
   name: "App",
