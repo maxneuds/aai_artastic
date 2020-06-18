@@ -15,7 +15,12 @@
       <v-layout row wrap class="my-5">
         <v-flex>
           <SoundButton :text="'Max'" />
-          <CardList v-if="artworks" :cards="artworks" :searchWords="searchWords" :objClass="objClass" />
+          <CardList
+            v-if="artworks"
+            :cards="artworks"
+            :searchWords="searchWords"
+            :objClass="objClass"
+          />
         </v-flex>
       </v-layout>
     </v-container>
@@ -54,6 +59,7 @@ export default {
         }
       }).then(response => {
         this.artworks = response.data.result.results.bindings;
+        console.log(this.artworks);
         this.searchWords = response.data.searchWords;
       });
     }

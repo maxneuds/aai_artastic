@@ -29,7 +29,8 @@ def get_artwork(data):
     sparql.setReturnFormat(JSON)
     result = sparql.query().convert()
     if len(result.get('results').get('bindings')) > 0:
-        search_words = get_search_words(result.get('results').get('bindings')[0].get('abstract').get('value'))
+        search_words = get_search_words(result.get('results').get('bindings')[
+                                        0].get('abstract').get('value'))
     else:
         search_words = []
     return {
@@ -106,7 +107,8 @@ def get_search_words(text):
     doc = nlp(text)
 
     # Entity White - listing
-    whitelist = ["ORG", "PERSON", "GPE", "EVENT", "FAC", "WORK_OF_ART", "PRODUCT", "LOC"]
+    whitelist = ["ORG", "PERSON", "GPE", "EVENT",
+                 "FAC", "WORK_OF_ART", "PRODUCT", "LOC"]
 
     text = []
     label = []
@@ -117,4 +119,3 @@ def get_search_words(text):
             label.append(entity.label_)
 
     return text
-
