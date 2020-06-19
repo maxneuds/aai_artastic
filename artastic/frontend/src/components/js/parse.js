@@ -44,4 +44,12 @@ function parseObjClass(hits){
   return extractObjClass(hits[0]._source.Class.value);
 }
 
-export {parseAutocomplete, parseObjClass}
+function extractLabelsFromSearchWords(searchWords){
+  let column = [];
+  for (let i = 0; i < searchWords.length; i++) {
+    column.push(searchWords[i][0]);
+  }
+  return column;
+}
+
+export {parseAutocomplete, parseObjClass, extractLabelsFromSearchWords}

@@ -17,7 +17,7 @@
 
       <div>
         <text-highlight
-          :queries="searchWords"
+          :queries="searchWordLabels"
           :highlightComponent="ClickableHighlightComponent"
           @generateChip="generateChip"
         >Abstract: {{artwork.abstract.value}}</text-highlight>
@@ -29,8 +29,7 @@
 <script>
 import TextHighlight from "vue-text-highlight";
 import ClickableHighlightComponent from "../ClickableHighlightComponent";
-import {search as searchElastic} from "../js/elasticsearch"
-import {parseObjClass} from "../js/parse"
+import {extractLabelsFromSearchWords} from "../js/parse"
 export default {
   components: { TextHighlight },
   data: () => ({
@@ -38,17 +37,19 @@ export default {
   }),
   methods: {
     generateChip:async function(text) {
-      let label = text;
-      await searchElastic(text)
-          .then(res => {
-            let objClass = parseObjClass(res);
-            if(objClass){
-              label = label + ' (' + objClass + ')';
-            }
-          })
-          .catch(err => console.log(err));
-
+      let index = this.searchWordLabels.indexOf(text);
+      console.log(index);
+      let label = text + ' (' + this.searchWords[index][1] + ')';
+      console.log(label);
       this.$emit("generateChip", label);
+    }
+  },
+  computed: {
+    searchWordLabels(){
+      let test = extractLabelsFromSearchWords(this.searchWords);
+      console.log("test");
+      console.log(test);
+      return test;
     }
   },
   props: ["artwork", "searchWords"]

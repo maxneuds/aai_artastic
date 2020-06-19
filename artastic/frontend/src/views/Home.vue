@@ -32,7 +32,7 @@
         <SoundButton :text="'Max'" />
         <v-flex>
           <CardList
-            v-if="data"
+            v-if="data && searchWords"
             :cards="data"
             :searchWords="searchWords"
             :objClass="objClass"
@@ -49,6 +49,8 @@ import SearchField from "../components/SearchField";
 import SoundButton from "../components/SoundButton";
 import CardList from "../components/Cards/CardList";
 import axios from "axios";
+import {parseObjClass} from "../components/js/parse";
+import {search as searchElastic} from "../components/js/elasticsearch";
 export default {
   components: {
     SearchField,
@@ -76,7 +78,7 @@ export default {
     },
     postQuery: function(data) {
       this.objClass = data.objClass;
-      var url = this.objClass + "/";
+      let url = this.objClass + "/";
       axios.defaults.xsrfCookieName = "csrftoken";
       axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
       axios({
@@ -86,10 +88,28 @@ export default {
           label: data.label,
           objClass: data.objClass
         }
-      }).then(response => {
+      }).then(async response => {
         this.data = response.data.result.results.bindings;
-        this.searchWords = response.data.searchWords;
+        this.searchWords = await this.filterSearchWords(response.data.searchWords);
       });
+    },
+    filterSearchWords: async function(searchWords){
+      let ret = [];
+      for (let i = 0; i < searchWords.length; i++) {
+        let objClass;
+        await searchElastic(searchWords[i])
+              .then(res => {
+                let foundObjClass = parseObjClass(res);
+                if (foundObjClass) {
+                  objClass = foundObjClass;
+                }
+              })
+              .catch(err => console.log(err));
+        if(objClass){
+          ret.push([searchWords[i], objClass]);
+        }
+      }
+      return ret;
     },
     clearChips() {
       this.chips = [];
