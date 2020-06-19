@@ -29,7 +29,7 @@
         </v-flex>
       </v-layout>
       <v-layout row wrap class="my-5">
-        <SoundButton :text="'Max'" />
+        <SoundButton :text="'This is a test of the text engine. Yo.'" />
         <v-flex>
           <CardList
             v-if="data"
@@ -91,7 +91,7 @@ export default {
         this.searchWords = response.data.searchWords;
       });
     },
-    clearChips(){
+    clearChips() {
       this.chips = [];
     }
   }
