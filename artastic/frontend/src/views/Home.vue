@@ -13,9 +13,6 @@
         </v-flex>
       </v-layout>
       <v-layout row wrap class="my-5">
-        <v-btn color="blue-grey" fab small dark v-on:click="clearChips">
-          <v-icon>mdi-clear</v-icon>
-        </v-btn>
         <v-flex>
           <v-chip
             v-for="chip in chips"
@@ -26,6 +23,9 @@
             color="green"
             text-color="white"
           >{{chip}}</v-chip>
+          <v-btn v-if="chips.length > 0" color="blue-grey" fab small dark v-on:click="clearChips">
+            <v-icon>mdi-close-circle-outline</v-icon>
+          </v-btn>
         </v-flex>
       </v-layout>
       <v-layout row wrap class="my-5">
@@ -91,7 +91,7 @@ export default {
         this.searchWords = response.data.searchWords;
       });
     },
-    clearChips(){
+    clearChips() {
       this.chips = [];
     }
   }
