@@ -47,10 +47,10 @@
 <script>
 import SearchField from "../components/SearchField";
 import SoundButton from "../components/SoundButton";
-import CardList from "../components/Cards/CardList";
+import CardList from "../components/CardList";
 import axios from "axios";
-import {parseObjClass} from "../components/js/parse";
-import {search as searchElastic} from "../components/js/elasticsearch";
+import { parseObjClass } from "../components/js/parse";
+import { search as searchElastic } from "../components/js/elasticsearch";
 export default {
   components: {
     SearchField,
@@ -90,22 +90,24 @@ export default {
         }
       }).then(async response => {
         this.data = response.data.result.results.bindings;
-        this.searchWords = await this.filterSearchWords(response.data.searchWords);
+        this.searchWords = await this.filterSearchWords(
+          response.data.searchWords
+        );
       });
     },
-    filterSearchWords: async function(searchWords){
+    filterSearchWords: async function(searchWords) {
       let ret = [];
       for (let i = 0; i < searchWords.length; i++) {
         let objClass;
         await searchElastic(searchWords[i])
-              .then(res => {
-                let foundObjClass = parseObjClass(res);
-                if (foundObjClass) {
-                  objClass = foundObjClass;
-                }
-              })
-              .catch(err => console.log(err));
-        if(objClass){
+          .then(res => {
+            let foundObjClass = parseObjClass(res);
+            if (foundObjClass) {
+              objClass = foundObjClass;
+            }
+          })
+          .catch(err => console.log(err));
+        if (objClass) {
           ret.push([searchWords[i], objClass]);
         }
       }
