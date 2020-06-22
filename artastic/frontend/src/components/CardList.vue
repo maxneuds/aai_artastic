@@ -3,8 +3,19 @@
     <v-row dense>
       <v-col v-for="card in computedOutput(cards)" :key="card" cols="4">
         <v-card class="mx-auto" max-width="400">
-          <v-img v-if="card.Image" class="white--text align-end" height="200px" :src="card.Image">
+          <v-img
+            v-if="card.Image"
+            class="white--text align-end"
+            height="200px"
+            :src="card.Image"
+            lazy-src="https://picsum.photos/id/11/100/60"
+          >
             <v-card-title v-if="card.Label">{{ card.Label }}</v-card-title>
+            <template v-slot:placeholder>
+              <v-row class="fill-height ma-0" align="center" justify="center">
+                <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+              </v-row>
+            </template>
           </v-img>
 
           <v-card-subtitle class="pb-0">{{ objClass }}</v-card-subtitle>
