@@ -29,7 +29,7 @@
         </v-flex>
       </v-layout>
       <v-layout row wrap class="my-5">
-        <SoundButton :text="'Max'" />
+        <SoundButton :text="'This is a test of the text engine. Yo.'" />
         <v-flex>
           <CardList
             v-if="data && searchWords"
@@ -95,6 +95,7 @@ export default {
         );
       });
     },
+<<<<<<< HEAD
     filterSearchWords: async function(searchWords) {
       let ret = [];
       for (let i = 0; i < searchWords.length; i++) {
@@ -113,6 +114,8 @@ export default {
       }
       return ret;
     },
+=======
+>>>>>>> dev_max
     clearChips() {
       this.chips = [];
     }
