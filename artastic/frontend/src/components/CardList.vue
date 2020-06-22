@@ -11,23 +11,21 @@
 
           <v-card-text class="text--primary">
             <div v-for="(value, key) in card" v-bind:key="value.Material">
-              <div v-if="key !='Image' && key != 'Abstract'">
-                <strong>{{key}}:</strong>
-                {{value}}
-              </div>
-              <div v-if="key === 'Abstract'">
-                <strong>{{key}}:</strong>
-                <text-highlight
-                  :queries="searchWordLabels"
-                  :highlightComponent="ClickableHighlightComponent"
-                  @generateChip="generateChip"
-                >{{value}}</text-highlight>
-              </div>
+              <TextComponent
+                :keyValue="key"
+                :value="value"
+                :searchWords="searchWords"
+                :shortAbstract="true"
+              />
             </div>
           </v-card-text>
           <v-card-actions>
             <router-link :to="{path: `/card/${card.Label}`}">
-              <v-btn text color="deep-purple accent-4" v-on:click="addCard(card)">Read more</v-btn>
+              <v-btn
+                text
+                color="deep-purple accent-4"
+                v-on:click="addCardAndSearchWords(card, searchWords)"
+              >Read more</v-btn>
             </router-link>
             <v-spacer></v-spacer>
             <SoundButton :text="'Max'" />
@@ -39,19 +37,27 @@
 </template>
 
 <script>
-import TextHighlight from "vue-text-highlight";
+import TextComponent from "./TextComponent";
 import ClickableHighlightComponent from "./ClickableHighlightComponent";
 import SoundButton from "../components/SoundButton";
 import { extractLabelsFromSearchWords } from "./js/parse";
 import { mapMutations } from "vuex";
 export default {
-  components: { TextHighlight, SoundButton },
+  components: { SoundButton, TextComponent },
   data: () => ({
-    ClickableHighlightComponent
+    ClickableHighlightComponent,
+    shortAbstract: ""
   }),
   props: ["cards", "objClass", "searchWords"],
   methods: {
-    ...mapMutations({ addCard: "addCard" }),
+    addCardAndSearchWords(card, searchWordLabels) {
+      this.addCard(card);
+      this.addSearchWordLabels(searchWordLabels);
+    },
+    ...mapMutations({
+      addCard: "addCard",
+      addSearchWordLabels: "addSearchWordLabels"
+    }),
 
     generateChip: async function(text) {
       let index = this.searchWordLabels.indexOf(text);
@@ -70,10 +76,10 @@ export default {
           if (cap_string === "Abstract") {
             let fullText = obj2[card][element].value;
             let shortText = fullText.slice(0, 350) + "...";
+            this.shortAbstract = shortText;
             testArray[cap_string] = shortText;
-          } else {
-            testArray[cap_string] = obj2[card][element].value;
           }
+          testArray[cap_string] = obj2[card][element].value;
         }
         finalObject.push(testArray);
       }
@@ -82,6 +88,7 @@ export default {
   },
   computed: {
     searchWordLabels() {
+      console.log(this.searchWords);
       let test = extractLabelsFromSearchWords(this.searchWords);
       return test;
     }

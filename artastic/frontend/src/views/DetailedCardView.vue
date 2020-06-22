@@ -9,7 +9,31 @@
 
       <v-layout row wrap class="my-5">
         <v-flex>
-          <p>{{card}}</p>
+          <v-row align="center" justify="center" class="mb-6">
+            <v-col>
+              <v-img
+                v-if="card.Image"
+                :src="card.Image"
+                lazy-src="https://picsum.photos/id/11/100/60"
+                aspect-ratio="1"
+                contain
+                class="white"
+                max-height="500"
+              >
+                <template v-slot:placeholder>
+                  <v-row class="fill-height ma-0" align="center" justify="center">
+                    <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                  </v-row>
+                </template>
+              </v-img>
+            </v-col>
+            <v-col>
+              <div v-for="(value, key) in card" :key="key">
+                <TextComponent :keyValue="key" :value="value" :searchWords="searchWordLabels" />
+              </div>
+              <SoundButton :text="test" />
+            </v-col>
+          </v-row>
         </v-flex>
       </v-layout>
     </v-container>
@@ -18,9 +42,15 @@
 
 <script>
 import { mapGetters } from "vuex";
+import TextComponent from "../components/TextComponent";
+import SoundButton from "../components/SoundButton";
 export default {
+  components: {
+    TextComponent,
+    SoundButton
+  },
   computed: {
-    ...mapGetters({ card: "getCard" })
+    ...mapGetters({ card: "getCard", searchWordLabels: "getSearchWordLabels" })
   }
 };
 </script>

@@ -29,7 +29,6 @@
         </v-flex>
       </v-layout>
       <v-layout row wrap class="my-5">
-        <SoundButton :text="'Max'" />
         <v-flex>
           <CardList
             v-if="data && searchWords"
@@ -46,7 +45,6 @@
 
 <script>
 import SearchField from "../components/SearchField";
-import SoundButton from "../components/SoundButton";
 import CardList from "../components/CardList";
 import axios from "axios";
 import { parseObjClass } from "../components/js/parse";
@@ -54,7 +52,6 @@ import { search as searchElastic } from "../components/js/elasticsearch";
 export default {
   components: {
     SearchField,
-    SoundButton,
     CardList
   },
   data: function() {
