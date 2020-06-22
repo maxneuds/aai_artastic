@@ -25,6 +25,13 @@
               </div>
             </div>
           </v-card-text>
+          <v-card-actions>
+            <router-link :to="{path: `/card/${card.Label}`}">
+              <v-btn text color="deep-purple accent-4" v-on:click="addCard(card)">Read more</v-btn>
+            </router-link>
+            <v-spacer></v-spacer>
+            <SoundButton :text="'Max'" />
+          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -34,15 +41,18 @@
 <script>
 import TextHighlight from "vue-text-highlight";
 import ClickableHighlightComponent from "./ClickableHighlightComponent";
+import SoundButton from "../components/SoundButton";
 import { extractLabelsFromSearchWords } from "./js/parse";
+import { mapMutations } from "vuex";
 export default {
-  components: { TextHighlight },
+  components: { TextHighlight, SoundButton },
   data: () => ({
-    ClickableHighlightComponent,
-    abstract: null
+    ClickableHighlightComponent
   }),
   props: ["cards", "objClass", "searchWords"],
   methods: {
+    ...mapMutations({ addCard: "addCard" }),
+
     generateChip: async function(text) {
       let index = this.searchWordLabels.indexOf(text);
       let label = text + " (" + this.searchWords[index][1] + ")";
@@ -57,18 +67,22 @@ export default {
         let testArray = {};
         for (let element in obj2[card]) {
           var cap_string = element.charAt(0).toUpperCase() + element.slice(1);
-          testArray[cap_string] = obj2[card][element].value;
+          if (cap_string === "Abstract") {
+            let fullText = obj2[card][element].value;
+            let shortText = fullText.slice(0, 350) + "...";
+            testArray[cap_string] = shortText;
+          } else {
+            testArray[cap_string] = obj2[card][element].value;
+          }
         }
         finalObject.push(testArray);
       }
-      console.log(typeof finalObject[0]);
       return finalObject;
     }
   },
   computed: {
     searchWordLabels() {
       let test = extractLabelsFromSearchWords(this.searchWords);
-      console.log(test);
       return test;
     }
   }
