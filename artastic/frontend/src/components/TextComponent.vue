@@ -29,7 +29,7 @@ export default {
   props: {
     keyValue: String,
     value: String,
-    searchWords: [],
+    searchWords: Array,
     shortAbstract: {
       type: Boolean,
       default: false
@@ -40,8 +40,7 @@ export default {
   }),
   computed: {
     searchWordLabels() {
-      let test = extractLabelsFromSearchWords(this.searchWords);
-      return test;
+      return extractLabelsFromSearchWords(this.searchWords);
     },
     shortedAbstract() {
       return this.value.slice(0, 350) + "...";

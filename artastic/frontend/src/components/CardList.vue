@@ -28,7 +28,7 @@
               >Read more</v-btn>
             </router-link>
             <v-spacer></v-spacer>
-            <SoundButton :text="'Max'" />
+            <SoundButton :text="card.Abstract" />
           </v-card-actions>
         </v-card>
       </v-col>
@@ -53,6 +53,7 @@ export default {
     addCardAndSearchWords(card, searchWordLabels) {
       this.addCard(card);
       this.addSearchWordLabels(searchWordLabels);
+      console.log(searchWordLabels);
     },
     ...mapMutations({
       addCard: "addCard",

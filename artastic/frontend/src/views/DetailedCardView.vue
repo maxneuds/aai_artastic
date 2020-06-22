@@ -31,7 +31,7 @@
               <div v-for="(value, key) in card" :key="key">
                 <TextComponent :keyValue="key" :value="value" :searchWords="searchWordLabels" />
               </div>
-              <SoundButton :text="test" />
+              <SoundButton :text="card.Abstract" />
             </v-col>
           </v-row>
         </v-flex>

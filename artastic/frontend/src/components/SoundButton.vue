@@ -1,6 +1,6 @@
 <template>
   <div class="my-2">
-    <v-btn color="blue-grey" fab small dark v-on:click="sayHi(text)">
+    <v-btn color="blue-grey" fab small dark v-on:click="read_text(text)">
       <v-icon>mdi-voice</v-icon>
     </v-btn>
   </div>
@@ -10,8 +10,16 @@
 export default {
   props: ["text"],
   methods: {
-    sayHi(text) {
-      console.log("Hi " + text + "!");
+    read_text: function(text) {
+      var msg = new SpeechSynthesisUtterance();
+      var voices = window.speechSynthesis.getVoices();
+      msg.voice = voices[1];
+      msg.text = text;
+      msg.lang = "en-US";
+      msg.volume = 1; // 0 to 1
+      msg.rate = 0.7; // 0.1 to 10
+      msg.pitch = 1; //0 to 2
+      speechSynthesis.speak(msg);
     }
   }
 };
