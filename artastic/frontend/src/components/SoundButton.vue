@@ -11,19 +11,22 @@ export default {
   props: ["text"],
   methods: {
     read_text: function(text) {
+      var synth = window.speechSynthesis;
+      var voices = synth.getVoices();
       var msg = new SpeechSynthesisUtterance();
-      var voices = window.speechSynthesis.getVoices();
-      msg.voice = voices[1];
-      msg.text = text;
+      msg.voice = voices.filter(function(voice) {
+        return voice.lang == "en-US";
+      })[0];
       msg.lang = "en-US";
       msg.volume = 1; // 0 to 1
       msg.rate = 0.7; // 0.1 to 10
       msg.pitch = 1; //0 to 2
-      speechSynthesis.speak(msg);
-    }
-  }
+      msg.text = text;
+      console.log(voices);
+      synth.speak(msg);
+    },
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>

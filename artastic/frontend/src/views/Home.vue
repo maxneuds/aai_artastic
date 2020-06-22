@@ -22,14 +22,21 @@
             class="ma-2"
             color="green"
             text-color="white"
-          >{{chip}}</v-chip>
-          <v-btn v-if="chips.length > 0" color="blue-grey" fab small dark v-on:click="clearChips">
+            >{{ chip }}</v-chip
+          >
+          <v-btn
+            v-if="chips.length > 0"
+            color="blue-grey"
+            fab
+            small
+            dark
+            v-on:click="clearChips"
+          >
             <v-icon>mdi-close-circle-outline</v-icon>
           </v-btn>
         </v-flex>
       </v-layout>
       <v-layout row wrap class="my-5">
-        <SoundButton :text="'This is a test of the text engine. Yo.'" />
         <v-flex>
           <CardList
             v-if="data && searchWords"
@@ -46,7 +53,6 @@
 
 <script>
 import SearchField from "../components/SearchField";
-import SoundButton from "../components/SoundButton";
 import CardList from "../components/CardList";
 import axios from "axios";
 import { parseObjClass } from "../components/js/parse";
@@ -54,15 +60,14 @@ import { search as searchElastic } from "../components/js/elasticsearch";
 export default {
   components: {
     SearchField,
-    SoundButton,
-    CardList
+    CardList,
   },
   data: function() {
     return {
       data: [],
       searchWords: [],
       chips: [],
-      objClass: null
+      objClass: null,
     };
   },
   methods: {
@@ -86,40 +91,37 @@ export default {
         url: "http://localhost:8000/api/" + url,
         data: {
           label: data.label,
-          objClass: data.objClass
-        }
-      }).then(async response => {
+          objClass: data.objClass,
+        },
+      }).then(async (response) => {
         this.data = response.data.result.results.bindings;
         this.searchWords = await this.filterSearchWords(
           response.data.searchWords
         );
       });
     },
-<<<<<<< HEAD
     filterSearchWords: async function(searchWords) {
       let ret = [];
       for (let i = 0; i < searchWords.length; i++) {
         let objClass;
         await searchElastic(searchWords[i])
-          .then(res => {
+          .then((res) => {
             let foundObjClass = parseObjClass(res);
             if (foundObjClass) {
               objClass = foundObjClass;
             }
           })
-          .catch(err => console.log(err));
+          .catch((err) => console.log(err));
         if (objClass) {
           ret.push([searchWords[i], objClass]);
         }
       }
       return ret;
     },
-=======
->>>>>>> dev_max
     clearChips() {
       this.chips = [];
-    }
-  }
+    },
+  },
 };
 </script>
 

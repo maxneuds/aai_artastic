@@ -3,34 +3,45 @@
     <v-row dense>
       <v-col v-for="card in computedOutput(cards)" :key="card" cols="4">
         <v-card class="mx-auto" max-width="400">
-          <v-img v-if="card.Image" class="white--text align-end" height="200px" :src="card.Image">
-            <v-card-title v-if="card.Label">{{card.Label}}</v-card-title>
+          <v-img
+            v-if="card.Image"
+            class="white--text align-end"
+            height="200px"
+            :src="card.Image"
+          >
+            <v-card-title v-if="card.Label">{{ card.Label }}</v-card-title>
           </v-img>
 
-          <v-card-subtitle class="pb-0">{{objClass}}</v-card-subtitle>
+          <v-card-subtitle class="pb-0">{{ objClass }}</v-card-subtitle>
 
           <v-card-text class="text--primary">
             <div v-for="(value, key) in card" v-bind:key="value.Material">
-              <div v-if="key !='Image' && key != 'Abstract'">
-                <strong>{{key}}:</strong>
-                {{value}}
+              <div v-if="key != 'Image' && key != 'Abstract'">
+                <strong>{{ key }}:</strong>
+                {{ value }}
               </div>
               <div v-if="key === 'Abstract'">
-                <strong>{{key}}:</strong>
+                <strong>{{ key }}:</strong>
                 <text-highlight
                   :queries="searchWordLabels"
                   :highlightComponent="ClickableHighlightComponent"
                   @generateChip="generateChip"
-                >{{value}}</text-highlight>
+                  >{{ value }}</text-highlight
+                >
               </div>
             </div>
           </v-card-text>
           <v-card-actions>
-            <router-link :to="{path: `/card/${card.Label}`}">
-              <v-btn text color="deep-purple accent-4" v-on:click="addCard(card)">Read more</v-btn>
+            <router-link :to="{ path: `/card/${card.Label}` }">
+              <v-btn
+                text
+                color="deep-purple accent-4"
+                v-on:click="addCard(card)"
+                >Read more</v-btn
+              >
             </router-link>
             <v-spacer></v-spacer>
-            <SoundButton :text="'Max'" />
+            <SoundButton :text="card.Label + ' ... ' + card.Description" />
           </v-card-actions>
         </v-card>
       </v-col>
@@ -47,7 +58,7 @@ import { mapMutations } from "vuex";
 export default {
   components: { TextHighlight, SoundButton },
   data: () => ({
-    ClickableHighlightComponent
+    ClickableHighlightComponent,
   }),
   props: ["cards", "objClass", "searchWords"],
   methods: {
@@ -78,16 +89,15 @@ export default {
         finalObject.push(testArray);
       }
       return finalObject;
-    }
+    },
   },
   computed: {
     searchWordLabels() {
       let test = extractLabelsFromSearchWords(this.searchWords);
       return test;
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>
