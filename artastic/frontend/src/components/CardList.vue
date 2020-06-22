@@ -4,10 +4,10 @@
       <v-col v-for="card in computedOutput(cards)" :key="card" cols="4">
         <v-card class="mx-auto" max-width="400">
           <v-img v-if="card.Image" class="white--text align-end" height="200px" :src="card.Image">
-            <v-card-title v-if="card.Label">{{card.Label}}</v-card-title>
+            <v-card-title v-if="card.Label">{{ card.Label }}</v-card-title>
           </v-img>
 
-          <v-card-subtitle class="pb-0">{{objClass}}</v-card-subtitle>
+          <v-card-subtitle class="pb-0">{{ objClass }}</v-card-subtitle>
 
           <v-card-text class="text--primary">
             <div v-for="(value, key) in card" v-bind:key="value.Material">
@@ -97,5 +97,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

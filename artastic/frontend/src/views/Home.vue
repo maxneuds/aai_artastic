@@ -22,7 +22,7 @@
             class="ma-2"
             color="green"
             text-color="white"
-          >{{chip}}</v-chip>
+          >{{ chip }}</v-chip>
           <v-btn v-if="chips.length > 0" color="blue-grey" fab small dark v-on:click="clearChips">
             <v-icon>mdi-close-circle-outline</v-icon>
           </v-btn>
