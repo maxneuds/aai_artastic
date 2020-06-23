@@ -73,6 +73,71 @@ def get_artist(data):
         "searchWords": search_words
     }
 
+def get_location(data):
+    _, label = extract_query_params(data)
+    sparql = SPARQLWrapper("http://neuds.de:3030/artontology/sparql")
+    query_string = """
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        PREFIX wd: <http://www.wikidata.org/entity/>
+        PREFIX : <http://h-da.de/fbi/artontology/>
+
+        SELECT  ?label ?description ?abstract ?wikipediaLink ?image ?country ?website ?lat ?lon
+        WHERE {{ ?a rdf:type :location ;
+                rdfs:label ?label ;
+                rdfs:label "{0}" ;
+                :description ?description;
+                :abstract ?abstract;
+                :wikipediaLink ?wikipediaLink;
+                :image ?image;
+                :country ?country;
+                :website ?website;
+                :lat ?lat;
+                :lon ?lon.
+        }}
+
+    """ .format(label)
+    sparql.setQuery(query_string)
+    # Convert results to JSON format
+    sparql.setReturnFormat(JSON)
+    result = sparql.query().convert()
+    print(result)
+    search_words = search_result(result)
+    return {
+        "result": result,
+        "searchWords": search_words
+    }
+
+def get_standard_entity_data(data):
+    obj_class, label = extract_query_params(data)
+    sparql = SPARQLWrapper("http://neuds.de:3030/artontology/sparql")
+    query_string = """
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        PREFIX wd: <http://www.wikidata.org/entity/>
+        PREFIX : <http://h-da.de/fbi/artontology/>
+
+        SELECT  ?label ?description ?abstract ?wikipediaLink ?image
+        WHERE {{ ?a rdf:type :{1} ;
+                rdfs:label ?label ;
+                rdfs:label "{0}" ;
+                :description ?description;
+                :abstract ?abstract;
+                :wikipediaLink ?wikipediaLink;
+                :image ?image;
+        }}
+
+    """ .format(label,obj_class)
+    sparql.setQuery(query_string)
+    # Convert results to JSON format
+    sparql.setReturnFormat(JSON)
+    result = sparql.query().convert()
+    print(result)
+    search_words = search_result(result)
+    return {
+        "result": result,
+        "searchWords": search_words
+    }
 
 def get_all(data):
     obj_class, label = extract_query_params(data)
