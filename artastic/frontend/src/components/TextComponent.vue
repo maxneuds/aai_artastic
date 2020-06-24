@@ -10,11 +10,13 @@
         v-if="shortAbstract"
         :queries="searchWordLabels"
         :highlightComponent="ClickableHighlightComponent"
+        @generateChip="generateChip"
       >{{shortedAbstract}}</text-highlight>
       <text-highlight
         v-if="!shortAbstract"
         :queries="searchWordLabels"
         :highlightComponent="ClickableHighlightComponent"
+        @generateChip="generateChip"
       >{{value}}</text-highlight>
     </div>
   </div>
@@ -38,6 +40,13 @@ export default {
   data: () => ({
     ClickableHighlightComponent
   }),
+  methods: {
+    generateChip: async function (text) {
+      let index = this.searchWordLabels.indexOf(text);
+      let label = text + " (" + this.searchWords[index][1] + ")";
+      this.$emit("generateChip", label);
+    }
+  },
   computed: {
     searchWordLabels() {
       return extractLabelsFromSearchWords(this.searchWords);

@@ -9,25 +9,10 @@
 
       <v-layout row wrap class="my-5">
         <v-flex>
-          <SearchField @postQuery="postQuery" />
+          <SearchField @postQuery="postQuery" :chipSearch="chipSearch"/>
         </v-flex>
       </v-layout>
-      <v-layout row wrap class="my-5">
-        <v-flex>
-          <v-chip
-            v-for="chip in chips"
-            :key="chip"
-            close
-            @click:close="remove(chip)"
-            class="ma-2"
-            color="green"
-            text-color="white"
-          >{{ chip }}</v-chip>
-          <v-btn v-if="chips.length > 0" color="blue-grey" fab small dark v-on:click="clearChips">
-            <v-icon>mdi-close-circle-outline</v-icon>
-          </v-btn>
-        </v-flex>
-      </v-layout>
+      <ChipsList :chipLabel="chipLabel" @pasteToSearch="pasteToSearch"/>
       <v-layout row wrap class="my-5">
         <v-flex>
           <CardList
@@ -49,8 +34,11 @@ import CardList from "../components/CardList";
 import axios from "axios";
 import { parseObjClass } from "../components/js/parse";
 import { search as searchElastic } from "../components/js/elasticsearch";
+import ChipsList from "../components/ChipsList";
 export default {
+  props: ["chipLabel", "chipSearch"],
   components: {
+    ChipsList,
     SearchField,
     CardList
   },
@@ -63,15 +51,13 @@ export default {
     };
   },
   methods: {
-    remove(item) {
-      const index = this.chips.indexOf(item);
-      if (index >= 0) this.chips.splice(index, 1);
-    },
     generateChip: function(text) {
-      // only generate Chip if this chip is new
-      if (!this.chips.includes(text)) {
-        this.chips.push(text);
-      }
+      this.chipLabel = text;
+    },
+    pasteToSearch(item){
+      console.log(item);
+      console.log("Test1");
+      this.chipSearch = item;
     },
     postQuery: function(data) {
       this.objClass = data.objClass;
@@ -109,9 +95,6 @@ export default {
         }
       }
       return ret;
-    },
-    clearChips() {
-      this.chips = [];
     }
   }
 };

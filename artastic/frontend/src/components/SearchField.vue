@@ -33,6 +33,7 @@
 import { search as searchElastic } from "./js/elasticsearch.js";
 import { parseAutocomplete } from "./js/parse.js";
 export default {
+  props: ["chipSearch"],
   data: () => ({
     isLoading: false,
     model: null,
@@ -94,6 +95,11 @@ export default {
           .catch(err => console.log(err))
           .finally(() => (this.isLoading = false));
       }
+    },
+    chipSearch(val){
+      console.log("LOL it works");
+      console.log(val);
+      this.search = val;
     }
   }
 };

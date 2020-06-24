@@ -27,6 +27,7 @@
                 :value="value"
                 :searchWords="searchWords"
                 :shortAbstract="true"
+                @generateChip="generateChip"
               />
             </div>
           </v-card-text>
@@ -70,21 +71,18 @@ export default {
       addCard: "addCard",
       addSearchWordLabels: "addSearchWordLabels"
     }),
-
     generateChip: async function(text) {
-      let index = this.searchWordLabels.indexOf(text);
-      let label = text + " (" + this.searchWords[index][1] + ")";
-      this.$emit("generateChip", label);
+      this.$emit("generateChip", text);
     },
     computedOutput(data) {
-      var obj = JSON.stringify(data);
-      var obj2 = JSON.parse(obj);
-      var finalObject = [];
+      let obj = JSON.stringify(data);
+      let obj2 = JSON.parse(obj);
+      let finalObject = [];
 
       for (let card in obj2) {
         let testArray = {};
         for (let element in obj2[card]) {
-          var cap_string = element.charAt(0).toUpperCase() + element.slice(1);
+          let cap_string = element.charAt(0).toUpperCase() + element.slice(1);
           if (cap_string === "Abstract") {
             let fullText = obj2[card][element].value;
             let shortText = fullText.slice(0, 350) + "...";
