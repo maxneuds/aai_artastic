@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-row dense>
-      <v-col v-for="card in computedOutput(cards)" :key="card" cols="4">
+      <v-col v-for="card in computedCards" :key="computedCards.indexOf(card)" cols="4">
         <v-card class="mx-auto" max-width="400">
           <v-img
             v-if="card.Image"
@@ -95,6 +95,7 @@ export default {
         }
         finalObject.push(testArray);
       }
+      console.log(finalObject);
       return finalObject;
     }
   },
@@ -103,6 +104,9 @@ export default {
       console.log(this.searchWords);
       let test = extractLabelsFromSearchWords(this.searchWords);
       return test;
+    },
+    computedCards() {
+      return this.computedOutput(this.cards);
     }
   }
 };

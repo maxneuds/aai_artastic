@@ -28,6 +28,7 @@ def get_artwork(data):
     # Convert results to JSON format
     sparql.setReturnFormat(JSON)
     result = sparql.query().convert()
+    print(result)
     search_words = search_result(result)
     return {
         "result": result,
@@ -44,7 +45,7 @@ def get_artist(data):
         PREFIX wd: <http://www.wikidata.org/entity/>
         PREFIX : <http://h-da.de/fbi/artontology/>
 
-        SELECT  ?label ?description ?image ?abstract ?wikilink ?gender ?dob ?dod ?pob ?pod ?mov
+        SELECT  ?label ?description ?image ?abstract ?wikilink ?gender ?dateOfBirth ?dateOfDeath ?placeOfBirth ?placeOfDeath ?movement
         WHERE{{
             ?p rdf:type :person ;
             rdfs:label ?label;
@@ -72,6 +73,7 @@ def get_artist(data):
         "result": result,
         "searchWords": search_words
     }
+
 
 def get_location(data):
     _, label = extract_query_params(data)
@@ -108,6 +110,7 @@ def get_location(data):
         "searchWords": search_words
     }
 
+
 def get_standard_entity_data(data):
     obj_class, label = extract_query_params(data)
     sparql = SPARQLWrapper("http://neuds.de:3030/artontology/sparql")
@@ -127,7 +130,7 @@ def get_standard_entity_data(data):
                 :image ?image;
         }}
 
-    """ .format(label,obj_class)
+    """ .format(label, obj_class)
     sparql.setQuery(query_string)
     # Convert results to JSON format
     sparql.setReturnFormat(JSON)
@@ -138,6 +141,7 @@ def get_standard_entity_data(data):
         "result": result,
         "searchWords": search_words
     }
+
 
 def get_all(data):
     obj_class, label = extract_query_params(data)
