@@ -55,11 +55,11 @@ def get_artist(data):
             :abstract ?abstract;
             :wikipediaLink ?wikilink;
             :gender ?gender;
-            :date_of_birth ?dob;
-            :date_of_death ?dod;
-            :place_of_birth ?pob;
-            :place_of_death ?pod;
-            :movement ?mov;
+            :date_of_birth ?dateOfBirth;
+            :date_of_death ?dateOfDeath;
+            :place_of_birth ?placeOfBirth;
+            :place_of_death ?placeOfDeath;
+            :movement ?movement;
         }}
 
     """ .format(label)
