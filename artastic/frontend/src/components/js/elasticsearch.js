@@ -1,12 +1,12 @@
 let es = require('elasticsearch');
 
 let client = new es.Client({
-  host: 'neuds.de:9200/objects'
+  host: 'neuds.de:15660/objects'
 });
 
-function search (searchText) {
+function search(searchText) {
   return client.search({
-    "body":{
+    "body": {
       "query": {
         "query_string": {
           "query": "*" + searchText + "*",
@@ -15,9 +15,10 @@ function search (searchText) {
       }
     }
   }).then(function (resp) {
-      return resp.hits.hits;
+    return resp.hits.hits;
   }, function (err) {
     console.trace(err.message);
-})}
+  })
+}
 
 export { search }
