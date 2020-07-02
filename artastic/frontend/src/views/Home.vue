@@ -6,13 +6,12 @@
           <h1 class="grey--text">Home</h1>
         </v-flex>
       </v-layout>
-
       <v-layout row wrap class="my-5">
         <v-flex>
-          <SearchField @postQuery="postQuery" :chipSearch="chipSearch"/>
+          <SearchField @postQuery="postQuery"/>
         </v-flex>
       </v-layout>
-      <ChipsList :chipLabel="chipLabel" @pasteToSearch="pasteToSearch"/>
+      <ChipsList/>
       <v-layout row wrap class="my-5">
         <v-flex>
           <CardList
@@ -20,7 +19,6 @@
             :cards="data"
             :searchWords="searchWords"
             :objClass="objClass"
-            @generateChip="generateChip"
           />
         </v-flex>
       </v-layout>
@@ -36,7 +34,6 @@ import { parseObjClass } from "../components/js/parse";
 import { search as searchElastic } from "../components/js/elasticsearch";
 import ChipsList from "../components/ChipsList";
 export default {
-  props: ["chipLabel", "chipSearch"],
   components: {
     ChipsList,
     SearchField,
@@ -46,19 +43,10 @@ export default {
     return {
       data: [],
       searchWords: [],
-      chips: [],
       objClass: null
     };
   },
   methods: {
-    generateChip: function(text) {
-      this.chipLabel = text;
-    },
-    pasteToSearch(item){
-      console.log(item);
-      console.log("Test1");
-      this.chipSearch = item;
-    },
     postQuery: function(data) {
       this.objClass = data.objClass;
       let url = this.objClass + "/";

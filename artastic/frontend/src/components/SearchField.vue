@@ -4,6 +4,7 @@
     <v-spacer />
     <v-card-text>
       <v-autocomplete
+        ref="searchInputField"
         v-model="model"
         :items="items"
         :loading="isLoading"
@@ -32,8 +33,8 @@
 <script>
 import { search as searchElastic } from "./js/elasticsearch.js";
 import { parseAutocomplete } from "./js/parse.js";
+import {mapGetters} from "vuex";
 export default {
-  props: ["chipSearch"],
   data: () => ({
     isLoading: false,
     model: null,
@@ -52,7 +53,8 @@ export default {
         const objClass = entry.objClass;
         return Object.assign({}, { resultId }, { label }, { objClass });
       });
-    }
+    },
+    ...mapGetters({ getSearchParam: "getSearchParam" })
   },
   methods: {
     submitQuery(e) {
@@ -96,10 +98,12 @@ export default {
           .finally(() => (this.isLoading = false));
       }
     },
-    chipSearch(val){
-      console.log("LOL it works");
-      console.log(val);
-      this.search = val;
+    getSearchParam(val){
+      this.model = {
+        label : val.label,
+        objClass : val.objClass
+      };
+      this.search = val.label;
     }
   }
 };

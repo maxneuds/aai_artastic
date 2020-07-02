@@ -6,7 +6,7 @@
           <h1 class="grey--text">{{$route.params.label}}</h1>
         </v-flex>
       </v-layout>
-      <ChipsList :chipLabel="chipLabel"/>
+      <ChipsList/>
       <v-layout row wrap class="my-5">
         <v-flex>
           <v-row align="center" justify="center" class="mb-6">
@@ -29,7 +29,7 @@
             </v-col>
             <v-col>
               <div v-for="(value, key) in card" :key="key">
-                <TextComponent :keyValue="key" :value="value" :searchWords="searchWordLabels" @generateChip="generateChip" />
+                <TextComponent :keyValue="key" :value="value" :searchWords="searchWordLabels" @generateChip="prepareAndAddChip" />
               </div>
               <SoundButton :text="card.Abstract" />
             </v-col>
@@ -41,21 +41,21 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import TextComponent from "../components/TextComponent";
 import SoundButton from "../components/SoundButton";
 import ChipsList from "../components/ChipsList";
 export default {
-  props: ["chipLabel"],
   components: {
     ChipsList,
     TextComponent,
     SoundButton
   },
   methods: {
-    generateChip: function(text) {
-      this.chipLabel = text;
-    }
+    prepareAndAddChip: function(text) {
+      this.addChip(text);
+    },
+    ...mapMutations({ addChip: "addChip"})
   },
   computed: {
     ...mapGetters({ card: "getCard", searchWordLabels: "getSearchWordLabels" })

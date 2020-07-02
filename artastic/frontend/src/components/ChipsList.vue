@@ -5,7 +5,7 @@
           v-for="chip in chips"
           :key="chip"
           close
-          @click="$emit('pasteToSearch', chip)"
+          @click="setSelectedChip(chip)"
           @click:close="remove(chip)"
           class="ma-2"
           color="green"
@@ -19,34 +19,32 @@
 </template>
 
 <script>
+    import {mapMutations, mapGetters} from "vuex";
+    import {extractObjClassFromChip} from "./js/parse";
     export default {
-        props: ["chipLabel"],
         name: "chipsList",
-        data(){
-            return {
-                chips: []
-            }
-        },
         methods: {
             remove(item) {
                 const index = this.chips.indexOf(item);
                 if (index >= 0) this.chips.splice(index, 1);
             },
-            generateChip: function (text) {
-                // only generate Chip if this chip is new
-                if (!this.chips.includes(text)) {
-                    this.chips.push(text);
-                }
+            setSelectedChip(text){
+              const regExp = /^.*?(?=\()/;
+              const label = regExp.exec(text)[0];
+              const objClass = extractObjClassFromChip(text);
+              this.setSearchParam({
+                  label: label,
+                  objClass: objClass
+              });
             },
             clearChips() {
-                this.chips = [];
-            }
+                this.setChips([]);
+            },
+            ...mapMutations({ setSearchParam: "setSearchParam", setChips: "setChips", addChip: "addChip"})
         },
-        watch:{
-            chipLabel(){
-                this.generateChip(this.chipLabel);
-            }
-        }
+        computed: {
+            ...mapGetters({chips: "getChips"})
+        },
     }
 </script>
 

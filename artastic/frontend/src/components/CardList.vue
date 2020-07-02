@@ -27,7 +27,7 @@
                 :value="value"
                 :searchWords="searchWords"
                 :shortAbstract="true"
-                @generateChip="generateChip"
+                @generateChip="prepareAndAddChip"
               />
             </div>
           </v-card-text>
@@ -69,10 +69,11 @@ export default {
     },
     ...mapMutations({
       addCard: "addCard",
-      addSearchWordLabels: "addSearchWordLabels"
+      addSearchWordLabels: "addSearchWordLabels",
+      addChip: "addChip"
     }),
-    generateChip: async function(text) {
-      this.$emit("generateChip", text);
+    async prepareAndAddChip(text){
+      this.addChip(text);
     },
     computedOutput(data) {
       let obj = JSON.stringify(data);
@@ -99,9 +100,7 @@ export default {
   },
   computed: {
     searchWordLabels() {
-      console.log(this.searchWords);
-      let test = extractLabelsFromSearchWords(this.searchWords);
-      return test;
+      return extractLabelsFromSearchWords(this.searchWords);
     },
     computedCards() {
       return this.computedOutput(this.cards);

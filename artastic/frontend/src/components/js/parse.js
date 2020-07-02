@@ -52,4 +52,10 @@ function extractLabelsFromSearchWords(searchWords){
   return column;
 }
 
-export {parseAutocomplete, parseObjClass, extractLabelsFromSearchWords}
+function extractObjClassFromChip(chipLabel){
+  let regExr = /\(([^]+)\)/;
+  let ret = regExr.exec(chipLabel)[0];
+  return ret.substring(1, ret.length - 1)
+}
+
+export {parseAutocomplete, parseObjClass, extractLabelsFromSearchWords, extractObjClassFromChip}
