@@ -137,3 +137,4 @@ artastic/website/migrations/
 # big data
 *.pkl
 artastic/pkgs
+object_detection/res

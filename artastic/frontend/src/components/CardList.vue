@@ -40,7 +40,7 @@
               >Read more</v-btn>
             </router-link>
             <v-spacer></v-spacer>
-            <SoundButton :text="card.Abstract" />
+            <SoundButton :text="card.Abstract" v-bind:key="card.Abstract" />
           </v-card-actions>
         </v-card>
       </v-col>
