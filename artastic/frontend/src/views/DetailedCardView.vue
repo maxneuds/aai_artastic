@@ -6,7 +6,7 @@
           <h1 class="grey--text">{{$route.params.label}}</h1>
         </v-flex>
       </v-layout>
-      <ChipsList/>
+      <ChipsList />
       <v-layout row wrap class="my-5">
         <v-flex>
           <v-row align="center" justify="center" class="mb-6">
@@ -29,11 +29,22 @@
             </v-col>
             <v-col>
               <div v-for="(value, key) in card" :key="key">
-                <TextComponent :keyValue="key" :value="value" :searchWords="searchWordLabels" @generateChip="prepareAndAddChip" />
+                <TextComponent
+                  :keyValue="key"
+                  :value="value"
+                  :searchWords="searchWordLabels"
+                  @generateChip="prepareAndAddChip"
+                />
               </div>
               <SoundButton :text="card.Abstract" />
             </v-col>
           </v-row>
+        </v-flex>
+      </v-layout>
+      <v-layout row wrap class="my-5">
+        <v-flex>
+          <h3>Ähnliche Bilder:</h3>
+          <MostSimilarCardList v-if="data " :cards="data" :objClass="'artwork'" />
         </v-flex>
       </v-layout>
     </v-container>
@@ -42,20 +53,57 @@
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
+import axios from "axios";
+import { parseURL, parseSources } from "../components/js/parse";
+import { searchSimilarObjects } from "../components/js/elasticsearch";
 import TextComponent from "../components/TextComponent";
 import SoundButton from "../components/SoundButton";
 import ChipsList from "../components/ChipsList";
+import MostSimilarCardList from "../components/MostSimilarCardList";
 export default {
   components: {
     ChipsList,
     TextComponent,
-    SoundButton
+    SoundButton,
+    MostSimilarCardList
+  },
+  data: () => ({
+    similars: [],
+    data: []
+  }),
+  async created() {
+    await searchSimilarObjects(this.parseEntity()).then(resp => {
+      this.similars = parseSources(resp);
+      this.similars.map(entry => {
+        this.postQuery(entry.id2);
+      });
+    });
   },
   methods: {
+    postQuery: function(data) {
+      axios.defaults.xsrfCookieName = "csrftoken";
+      axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+      axios({
+        method: "post",
+        url: "http://localhost:8000/api/artworkByQ/",
+        data: {
+          qnum: data
+        }
+      }).then(async response => {
+        this.data.push(response.data.result.results.bindings);
+        console.log(this.data);
+      });
+    },
     prepareAndAddChip: function(text) {
       this.addChip(text);
     },
-    ...mapMutations({ addChip: "addChip"})
+    parseEntity: function() {
+      var res = parseURL(this.card.A);
+      var str = res.pathname;
+      var entity = str.split("/");
+      return entity[2];
+    },
+    ...mapMutations({ addChip: "addChip" })
   },
   computed: {
     ...mapGetters({ card: "getCard", searchWordLabels: "getSearchWordLabels" })

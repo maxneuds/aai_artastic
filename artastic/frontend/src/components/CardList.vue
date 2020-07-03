@@ -72,7 +72,7 @@ export default {
       addSearchWordLabels: "addSearchWordLabels",
       addChip: "addChip"
     }),
-    async prepareAndAddChip(text){
+    async prepareAndAddChip(text) {
       this.addChip(text);
     },
     computedOutput(data) {
@@ -94,7 +94,6 @@ export default {
         }
         finalObject.push(testArray);
       }
-      console.log(finalObject);
       return finalObject;
     }
   },

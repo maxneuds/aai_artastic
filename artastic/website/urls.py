@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import ArtworkList, GetArtist, GetLocation, GetMovement, GetMaterial, GetGenre
+from .views import ArtworkList, GetArtist, GetLocation, GetMovement, GetMaterial, GetGenre, ArtworkByQ
 
 
 app_name = "articles"
@@ -14,5 +14,6 @@ urlpatterns = [
     path('movement/', GetMovement.as_view()),
     path('material/', GetMaterial.as_view()),
     path('genre/', GetGenre.as_view()),
+    path('artworkByQ/', ArtworkByQ.as_view()),
 
 ]

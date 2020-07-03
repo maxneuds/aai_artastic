@@ -8,10 +8,10 @@
       </v-layout>
       <v-layout row wrap class="my-5">
         <v-flex>
-          <SearchField @postQuery="postQuery"/>
+          <SearchField @postQuery="postQuery" />
         </v-flex>
       </v-layout>
-      <ChipsList/>
+      <ChipsList />
       <v-layout row wrap class="my-5">
         <v-flex>
           <CardList
