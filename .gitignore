@@ -136,5 +136,7 @@ artastic/website/migrations/
 
 # big data
 *.pkl
+*.zip
 artastic/pkgs
 object_detection/res
+artsim/res
