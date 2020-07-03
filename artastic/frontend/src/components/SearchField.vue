@@ -40,6 +40,8 @@ export default {
     model: null,
     search: null,
     labelLimit: 60,
+    selectedChip: "",
+    useChip: false,
     autocompleteResults: []
   }),
   computed: {
@@ -58,6 +60,7 @@ export default {
   },
   methods: {
     submitQuery(e) {
+      this.useChip = false;
       if (e.keyCode === 13) {
         let queryParam = this.getCorrectQueryParam();
         this.$emit("postQuery", queryParam);
@@ -83,6 +86,12 @@ export default {
       }
     }
   },
+  updated: function(){
+    if(this.useChip){
+      this.search = this.selectedChip;
+      this.isLoading = false;
+    }
+  },
   watch: {
     search(val) {
       if (!val || val.length < 2) {
@@ -103,7 +112,8 @@ export default {
         label : val.label,
         objClass : val.objClass
       };
-      this.search = val.label;
+      this.selectedChip = val.label;
+      this.useChip = true;
     }
   }
 };

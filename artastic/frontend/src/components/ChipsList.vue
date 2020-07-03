@@ -33,8 +33,8 @@
               const label = regExp.exec(text)[0];
               const objClass = extractObjClassFromChip(text);
               this.setSearchParam({
-                  label: label,
-                  objClass: objClass
+                  label: label.trim(),
+                  objClass: objClass.trim()
               });
             },
             clearChips() {
