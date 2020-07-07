@@ -42,9 +42,9 @@
         </v-flex>
       </v-layout>
       <v-layout row wrap class="my-5">
-        <v-flex>
+        <v-flex v-if="data ">
           <h3>Ähnliche Bilder:</h3>
-          <MostSimilarCardList v-if="data" :cards="data" :objClass="'artwork'" />
+          <MostSimilarCardList :cards="data" :objClass="'artwork'" />
         </v-flex>
       </v-layout>
     </v-container>
@@ -79,6 +79,9 @@ export default {
     });
     this.actualEntity = this.parseEntity();
     await this.searchSimilar();
+  },
+  beforeDestroy() {
+    this.data = null;
   },
   watch: {
     async bottom(bottom) {
