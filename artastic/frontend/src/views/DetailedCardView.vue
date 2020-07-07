@@ -69,19 +69,42 @@ export default {
   },
   data: () => ({
     similars: [],
+    bottom: false,
     data: [],
     actualEntity: null
   }),
   async created() {
-    this.actualEntity = this.parseEntity();
-    await searchSimilarObjects(this.actualEntity).then(resp => {
-      this.similars = parseSources(resp);
-      this.similars.map(entry => {
-        this.postQuery(entry);
-      });
+    window.addEventListener("scroll", () => {
+      this.bottom = this.bottomVisible();
     });
+    this.actualEntity = this.parseEntity();
+    await this.searchSimilar();
+  },
+  watch: {
+    async bottom(bottom) {
+      if (bottom) {
+        await this.searchSimilar();
+      }
+    }
   },
   methods: {
+    searchSimilar: async function() {
+      await searchSimilarObjects(this.actualEntity, this.data.length).then(
+        resp => {
+          this.similars = parseSources(resp);
+          this.similars.map(entry => {
+            this.postQuery(entry);
+          });
+        }
+      );
+    },
+    bottomVisible() {
+      const scrollY = window.scrollY;
+      const visible = document.documentElement.clientHeight;
+      const pageHeight = document.documentElement.scrollHeight;
+      const bottomOfPage = visible + scrollY >= pageHeight;
+      return bottomOfPage || pageHeight < visible;
+    },
     postQuery: async function(entry) {
       axios.defaults.xsrfCookieName = "csrftoken";
       axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";

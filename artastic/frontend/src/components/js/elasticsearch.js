@@ -20,11 +20,13 @@ function search(searchText) {
   })
 }
 
-function searchSimilarObjects(entity) {
+function searchSimilarObjects(entity, from) {
   let client = new es.Client({
     host: 'neuds.de:15660/artsim'
   });
   return client.search({
+    "size": 10,
+    "from": from,
     "body": {
       "sort": [
         { "score": "desc" },

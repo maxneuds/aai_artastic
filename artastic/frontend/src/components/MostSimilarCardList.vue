@@ -25,6 +25,9 @@
               <TextComponent :keyValue="key" :value="value" />
             </div>
           </v-card-text>
+          <div v-if="computedCards.length === 0">
+            <v-progress-circular indeterminate color="primary" class="bottom" />
+          </div>
         </v-card>
       </v-col>
     </v-row>
