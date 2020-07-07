@@ -69,13 +69,17 @@ export default {
   },
   data: () => ({
     similars: [],
-    data: []
+    data: [],
+    actualEntity: null
   }),
   async created() {
-    await searchSimilarObjects(this.parseEntity()).then(resp => {
+    this.actualEntity = this.parseEntity();
+    await searchSimilarObjects(this.actualEntity).then(resp => {
       this.similars = parseSources(resp);
       this.similars.map(entry => {
-        this.postQuery(entry.id2);
+        entry.id1 === this.actualEntity
+          ? this.postQuery(entry.id2)
+          : this.postQuery(entry.id1);
       });
     });
   },
