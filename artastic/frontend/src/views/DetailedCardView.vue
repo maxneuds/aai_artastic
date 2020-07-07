@@ -44,7 +44,7 @@
       <v-layout row wrap class="my-5">
         <v-flex>
           <h3>Ähnliche Bilder:</h3>
-          <MostSimilarCardList v-if="data " :cards="data" :objClass="'artwork'" />
+          <MostSimilarCardList v-if="data" :cards="data" :objClass="'artwork'" />
         </v-flex>
       </v-layout>
     </v-container>
@@ -77,25 +77,26 @@ export default {
     await searchSimilarObjects(this.actualEntity).then(resp => {
       this.similars = parseSources(resp);
       this.similars.map(entry => {
-        entry.id1 === this.actualEntity
-          ? this.postQuery(entry.id2)
-          : this.postQuery(entry.id1);
+        this.postQuery(entry);
       });
     });
   },
   methods: {
-    postQuery: function(data) {
+    postQuery: async function(entry) {
       axios.defaults.xsrfCookieName = "csrftoken";
       axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+      let qnum = null;
+      entry.id1 === this.actualEntity ? (qnum = entry.id2) : (qnum = entry.id1);
       axios({
         method: "post",
         url: "http://localhost:8000/api/artworkByQ/",
         data: {
-          qnum: data
+          qnum: qnum
         }
       }).then(async response => {
-        this.data.push(response.data.result.results.bindings);
-        console.log(this.data);
+        let array = response.data.result.results.bindings;
+        array.push(entry.score);
+        this.data.push(array);
       });
     },
     prepareAndAddChip: function(text) {

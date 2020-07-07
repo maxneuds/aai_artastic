@@ -35,7 +35,7 @@
 import TextComponent from "./TextComponent";
 export default {
   components: { TextComponent },
-  props: ["cards", "objClass", "searchWords"],
+  props: ["cards", "objClass"],
   methods: {
     computedOutput(data) {
       let finalObject = [];
@@ -45,7 +45,12 @@ export default {
         let array = {};
         array["Label"] = entry[0].label.value;
         array["Image"] = entry[0].image.value;
+        array["Score"] = entry[1].toString();
         finalObject.push(array);
+      });
+
+      finalObject.sort(function(a, b) {
+        return parseFloat(b.Score) - parseFloat(a.Score);
       });
       return finalObject;
     }
