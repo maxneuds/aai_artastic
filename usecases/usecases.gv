@@ -1,17 +1,18 @@
 digraph usecases {
-	compound=true rankdir=LR
+	node [shape=box width=2.3]
+	compound=true newrank=true rankdir=LR size="10,5"
 	subgraph cluster_user {
-		user [label="" penwidth=0 shapefile="res/user.png"]
+		user [label="" penwidth=0 shapefile="res/user.png" width=0.8]
 		label=User labelloc=b penwidth=0
 	}
-	uc1 [label="get information
+	uc1 [label="show information
 about artwork"]
-	uc2 [label="get similar
+	uc2 [label="search
 artworks"]
-	uc3 [label="search
+	uc3 [label="text to speech:
+artwork abstract"]
+	uc4 [label="get similar
 artworks"]
-	uc4 [label="content to speech
-of artwork content"]
 	subgraph cluster_usecases {
 		penwidth=0 rank=same rankdir=TB ranksep=0
 		uc1
@@ -20,32 +21,42 @@ of artwork content"]
 		uc4
 		label=""
 	}
-	f1 [label="image
-upload"]
-	f2 [label="image
-classification"]
-	f3 [label="object
-detection"]
-	f4 [label="ddos/crawl
-detection"]
-	subgraph cluster_functions {
+	db1 [label="information retrieval:
+fuseki database" width=3]
+	db2 [label="information retrieval:
+elasticsearch content index" width=3]
+	db3 [label="information retrieval:
+elasticsearch score index" width=3]
+	subgraph cluster_databases {
 		penwidth=0 rank=same rankdir=TB ranksep=0
+		db1
+		db2
+		db3
+		label=""
+	}
+	f1 [label="nlp:
+abstract similarity" width=3]
+	f2 [label="cv:
+object ndetection" width=3]
+	f3 [label="nlp:
+name entitiy recognition" width=3]
+	subgraph cluster_functions {
+		penwidth=0 rankdir=TB ranksep=0
 		f1
 		f2
 		f3
-		f4
 		label=""
 	}
 	user -> uc1
 	user -> uc2
 	user -> uc3
 	user -> uc4
-	uc1 -> f1 [label="\<\<include\>\>" dir=back style=dashed]
-	uc1 -> f2 [label="\<\<include\>\>" dir=back style=dashed]
-	uc2 -> f1 [label="\<\<include\>\>" dir=back style=dashed]
-	uc2 -> f2 [label="\<\<include\>\>" dir=back style=dashed]
-	uc4 -> f2 [label="\<\<include\>\>" dir=back style=dashed]
-	uc4 -> f3 [label="\<\<include\>\>" dir=back style=dashed]
-	f2 -> f3 [constraint=false dir=back style=dashed xlabel="\<\<include\>\>"]
-	f4 -> user [style=dashed xlabel="\<\<classify\>\>"]
+	uc1 -> db1 [label="\<\<include\>\>" dir=back style=dashed]
+	uc2 -> db2 [label="\<\<include\>\>" dir=back style=dashed]
+	uc3 -> db1 [label="\<\<include\>\>" dir=back style=dashed]
+	uc4 -> db3 [label="\<\<include\>\>" dir=back style=dashed]
+	db2 -> db1 [dir=back style=dashed xlabel="\<\<include\>\>"]
+	db3 -> f1 [label="\<\<include\>\>" dir=back style=dashed]
+	db3 -> f2 [label="\<\<include\>\>" dir=back style=dashed]
+	db1 -> f3 [label="\<\<include\>\>" dir=back style=dashed]
 }
